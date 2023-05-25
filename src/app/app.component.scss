@@ -1,12 +1,12 @@
 .main {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
 .logo {
-  padding-top: 10%;
   width: 215px;
   display: flex;
   flex-direction: column;
