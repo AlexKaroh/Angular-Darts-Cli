@@ -1,0 +1,74 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.logo {
+  padding-top: 10%;
+  width: 215px;
+  display: flex;
+  flex-direction: column;
+  line-height: 36px;
+}
+
+.bold_font {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.copyright {
+  line-height: 20px;
+  text-align: right;
+}
+
+.message {
+  padding-top: 45px;
+  font-size: 20px;
+}
+
+.form_container {
+  padding-top: 45px;
+  display: flex;
+  flex-direction: column;
+}
+
+.submit_button {
+  width: 310px;
+  height: 55px;
+  margin-top: 55px;
+  background-color: #fff0;
+  color: #fff;
+  font-size: 25px;
+  border: 1px solid #ffffff50;
+  border-radius: 5px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: .3s;  
+
+  &:hover {
+    transform: scale(1.05);
+    transition: .3s;  
+  }
+}
+
+.input_form {
+  height: 35px;
+  border-radius: 5px;
+  padding-left: 5px;
+  font-size: 20px;
+  border: 2px solid #fff;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+.invalid {
+  border: 2px solid #e3796a;
+}
+
+.input_label {
+  margin: 15px 0 5px 0;
+}
