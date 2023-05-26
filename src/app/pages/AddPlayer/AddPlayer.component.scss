@@ -3,38 +3,23 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.logo {
-  width: 215px;
-  display: flex;
-  flex-direction: column;
-  line-height: 36px;
-}
-
-.bold_font {
-  font-size: 60px;
-  font-weight: bold;
-}
-
-.copyright {
-  line-height: 20px;
-  text-align: right;
+  height: 85vh;
 }
 
 .message {
   padding-top: 45px;
   font-size: 20px;
+  font-weight: 400;
 }
 
-.form_container {
+.form-container {
   padding-top: 45px;
   display: flex;
   flex-direction: column;
 }
 
-.submit_button {
+.submit-button {
+  cursor: pointer;
   width: 310px;
   height: 55px;
   margin-top: 55px;
@@ -43,8 +28,6 @@
   font-size: 25px;
   border: 1px solid #ffffff50;
   border-radius: 5px;
-  cursor: pointer;
-  transform: scale(1);
   transition: .3s;  
 
   &:hover {
@@ -53,7 +36,14 @@
   }
 }
 
-.input_form {
+.form-info {
+  margin: 15px 0 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-form {
   height: 35px;
   border-radius: 5px;
   padding-left: 5px;
@@ -66,9 +56,10 @@
 }
 
 .invalid {
-  border: 2px solid #e3796a;
+  border: 2px solid #e25f4e;
 }
 
-.input_label {
-  margin: 15px 0 5px 0;
+.error-message {
+  font-variant: all-petite-caps;
+  color: #e25f4e;
 }

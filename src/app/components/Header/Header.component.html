@@ -1,0 +1,10 @@
+<header class="header">
+  <nav class="navigation">
+    <ul class="navigation-list">
+      <li class="nav-item" *ngFor="let link of links">
+        <a class="nav-link light-font" [routerLink]="link.routerLink" [routerLinkActive]="['active']">{{ link.name }}</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<router-outlet></router-outlet>

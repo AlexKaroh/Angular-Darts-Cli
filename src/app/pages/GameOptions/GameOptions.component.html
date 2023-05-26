@@ -1,0 +1,20 @@
+<div class="main">
+  <app-logo class="logo"></app-logo>
+  <div class="options-container">
+    <span class="message light-font">Select players</span>
+    <div class="players-options">
+      <div class="search-container">
+        <input class="search" type="text" placeholder="Search">
+        <button class="search-button"><img src="../../../assets/search-icon.svg"></button>
+      </div>
+      <button class="add-button" (click)="redirectTo('addplayer')">New Player</button>
+    </div>
+    <ul class="players-list" *ngIf="(playersService.playersData$| async) as players">
+      <li class="player-info"  *ngFor="let player of players">
+        <span class="palyer-name">{{ player.name }}</span>
+        <span class="palyer-email">{{ player.email }}</span>
+        <button class="cross-button">✖</button>
+      </li>
+    </ul>
+  </div>
+</div>
