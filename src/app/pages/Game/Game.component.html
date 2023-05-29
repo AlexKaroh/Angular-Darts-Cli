@@ -1,4 +1,67 @@
-<p>
-  Game works! Mode {{gameService.selectedMode}}
-  players: {{playersService.playersData$ | async}}
-</p>
+<div class="main">
+  <div class="game" *ngIf="playersService.PlayersData.length >= 2">
+    <div class="game-header">
+      <app-logo class="logo"></app-logo>
+      <button class="new-game-button" (click)="routerService.redirectTo('options')">New game</button>
+    </div>
+    <div class="game-throws">
+      <div class="throw-container">
+        <div class="throw-column">
+          <span class="throw-number light-font">Dart 1</span>
+          <span class="throw-number light-font">Dart 2</span>
+          <span class="throw-number light-font">Dart 3</span>
+        </div>
+        <div class="players-throws" *ngIf="(playersService.playersData$| async) as players">
+          <div class="player-table" *ngFor="let player of players">
+            <span class="player-name light-font">{{ player.name }}</span>
+            <div class="throw-table">
+              <div class="throw-info">
+                <input type="text" class="throw-input">
+                <button class="multiply-button">x1</button>
+                <button class="multiply-button">x2</button>
+                <button class="multiply-button rounded">x3</button>
+              </div>
+              <div class="throw-info">
+                <input type="text" class="throw-input">
+                <button class="multiply-button">x1</button>
+                <button class="multiply-button">x2</button>
+                <button class="multiply-button rounded">x3</button>
+              </div>
+              <div class="throw-info">
+                <input type="text" class="throw-input">
+                <button class="multiply-button">x1</button>
+                <button class="multiply-button">x2</button>
+                <button class="multiply-button rounded">x3</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="add-step-button">Add</button>  
+    </div>
+    <div class="game-score" *ngIf="(playersService.playersData$| async) as players">
+      <div class="players-names">
+        <span class="name" *ngFor="let player of players">{{ player.name }}</span>
+      </div>
+      <div class="score-field">
+        <div class="step-score">
+          <span class="score">501</span>
+          <span class="score">501</span>
+        </div>
+        <div class="step-score">
+          <span class="score">501</span>
+          <span class="score">501</span>
+        </div>
+        <div class="step-score">
+          <span class="score">501</span>
+          <span class="score">501</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-message" *ngIf="playersService.PlayersData.length < 2">
+    <span>Add at least 2 players to start the game</span>
+    <button class="back-button" (click)="routerService.redirectTo('addplayer')">Add</button>
+  </div>
+</div>
