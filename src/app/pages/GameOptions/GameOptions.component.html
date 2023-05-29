@@ -4,17 +4,24 @@
     <span class="message light-font">Select players</span>
     <div class="players-options">
       <div class="search-container">
-        <input class="search" type="text" placeholder="Search">
+        <input class="search" type="text" placeholder="Search" [formControl]="findControl!">
         <button class="search-button"><img src="../../../assets/search-icon.svg"></button>
       </div>
       <button class="add-button" (click)="redirectTo('addplayer')">New Player</button>
     </div>
     <ul class="players-list" *ngIf="(playersService.playersData$| async) as players">
-      <li class="player-info"  *ngFor="let player of players">
+      <li class="player-info"  *ngFor="let player of players | slice:0:playersService.playersLength; let i = index">
         <span class="palyer-name">{{ player.name }}</span>
         <span class="palyer-email">{{ player.email }}</span>
-        <button class="cross-button">✖</button>
+        <button class="cross-button" (click)="playersService.removePlayer(i)">✖</button>
       </li>
     </ul>
+    <span class="message light-font">Choose game</span>
+    <div class="game-mode-container">
+      <button class="mode-button" *ngFor="let mode of gameService.gameMode" (click)="gameService.selectMode(mode)" [ngClass]="gameService.selectedMode === mode ? 'active' : 'disabled'">
+        <span class="mode-font">{{mode}}</span>
+      </button>
+    </div>
+    <button class="start-button" [ngClass]="gameService.selectedMode ? 'active' : 'disabled'" [attr.disabled]="gameService.selectedMode ? null : true" (click)="redirectTo('game')"> Start </button>
   </div>
 </div>

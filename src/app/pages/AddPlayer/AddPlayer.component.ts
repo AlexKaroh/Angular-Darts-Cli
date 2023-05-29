@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-import { IPlayersData } from 'src/interfaces/IPlayersData';
 import { PlayerService } from 'src/services/players.service';
 
 const MAX_NAME_LENGTH = 20;
@@ -56,7 +54,7 @@ export class AddPlayerComponent implements OnInit {
       } else if (control.errors['email']) {
         return 'Invalid email format';
       } else {
-        return `Maximum length exceeded`
+        return 'Maximum length exceeded';
       }
     }
     return '';

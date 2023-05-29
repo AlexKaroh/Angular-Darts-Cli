@@ -7,7 +7,10 @@ import { IPlayersData } from 'src/interfaces/IPlayersData';
   providedIn: 'root'
 })
 export class PlayerService {
+  playersLength = 4;
   playersData$ = new BehaviorSubject<IPlayersData[]>([]);
+
+  constructor() {}
 
   get PlayersData() {
     return this.playersData$.getValue()
@@ -17,5 +20,24 @@ export class PlayerService {
     this.playersData$.next(vlaue);
   }
 
-  constructor() {}
+  removePlayer(index: number) {
+    const playersData = this.PlayersData;
+    playersData.splice(index, 1); 
+    this.PlayersData = playersData; 
+  }
+
+  sortPlayersDataByName(searchVal : string) {
+    this.PlayersData = this.PlayersData.sort(this.sortByName(searchVal));
+  }
+
+  private sortByName(searchVal : string) {
+    return function(a : IPlayersData, b : IPlayersData) {
+      const includeA = a.name.toLowerCase().split(searchVal.toLowerCase()).length - 1;
+      const includeB = b.name.toLowerCase().split(searchVal.toLowerCase()).length - 1;
+      if (includeA !== includeB) {
+        return includeA < includeB ? 1 : -1;
+      }
+      return a.name.localeCompare(b.name);
+    };
+  }
 }

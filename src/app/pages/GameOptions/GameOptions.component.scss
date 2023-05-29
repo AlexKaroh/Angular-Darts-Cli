@@ -50,7 +50,6 @@
 }
 
 .search-button {
-  cursor: pointer;
   padding: 0 7px 0 7px;
   height: 36px;
   border-top-right-radius: 3px;
@@ -61,6 +60,7 @@
 
 .add-button {
   cursor: pointer;
+  position: relative;
   width: 48%;
   height: 40px;
   background-color: #fff0;
@@ -68,17 +68,38 @@
   font-size: 18px;
   border: 1px solid #ffffff50;
   border-radius: 5px;
-  transition: .3s;  
+  transition: .3s;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.00);
     transition: .3s;  
+  }
+
+  &::after {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 100%;
+    background-color: #72e58a47;
+    border: 1px solid #72e58a;
+    border-radius: 5px;
+    transition: width .5s, opacity .4s;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    width: 100%;
+    opacity: 1;
   }
 }
 
 .players-list {
   padding: 0;
-  margin-top: 15px;
+  margin: 15px 0 50px 0;
   border: 1px solid #ffffff50;
   border-bottom: none;
   border-radius: 5px;
@@ -123,7 +144,64 @@
 
 
   &:hover {
+    color: #e3796a;
     transform: rotate(180deg);
     transition: .5s;  
+  }
+}
+
+.game-mode-container {
+  padding: 20px 0 50px 0;
+  width: 35%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.disabled {
+  background-color: #fff0;
+  border: 1px solid #ffffff50;
+}
+
+.active {
+  background-color: #72e58a47;
+  border: 1px solid #72e58a;
+}
+
+.mode-button {
+  cursor: pointer;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  transition: .5s;  
+
+  &:hover {
+    background-color: #72e58a47;
+    border: 1px solid #72e58a;
+    transition: .2s;  
+  }
+}
+
+.mode-font {
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.start-button {
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 5px;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+    transition: .3s;  
   }
 }
