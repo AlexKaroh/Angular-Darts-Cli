@@ -16,16 +16,12 @@ export class AddPlayerComponent implements OnInit {
   constructor( private fb: FormBuilder , private playersService: PlayerService) {}
 
   ngOnInit() {
-    this.initForm();
-  }
-
-  private initForm() {
     this.playerDataControl = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(MAX_NAME_LENGTH)]],
       email: ['', [Validators.email]]
     });
   }
-
+  
   addPlayer() {
     if (this.playerDataControl?.valid) {
       const currentData = this.playersService.PlayersData;

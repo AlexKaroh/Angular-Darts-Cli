@@ -118,6 +118,7 @@
 }
 
 .rounded {
+  overflow: hidden;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -130,6 +131,12 @@
   font-size: 18px;
   border: 1px solid #ffffff50;
   background-color: #fff0;
+  transition: .3s;
+
+  &:hover {
+    transition: .3s;
+    border: 1px solid #72e58be3; 
+  }
 }
 
 .add-step-button {
@@ -188,9 +195,15 @@
 .score-field {
   margin-top: 15px;
   width: 80%;
+  display: flex;
+  flex-direction: column-reverse;
   border: 1px solid #ffffff50;
   border-bottom: none;
   overflow: hidden;
+}
+
+.init {
+  filter: opacity(0.5);
 }
 
 .step-score {
@@ -202,9 +215,20 @@
   height: 40px;
 }
 
+.step {
+  left: 8%;
+  position: absolute;
+}
+
 .score, .name {
   text-align: center;
   width: 33%;
+}
+
+.info {
+  cursor: pointer;
+  right: 8%;
+  position: absolute;
 }
 
 .error-message {
@@ -258,4 +282,9 @@
     width: 100%;
     opacity: 1;
   }
+}
+
+.selected {
+  background-color: #72e58a47;
+  border: 1px solid #72e58a;
 }

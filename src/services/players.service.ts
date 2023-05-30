@@ -8,7 +8,15 @@ import { IPlayersData } from 'src/interfaces/IPlayersData';
 })
 export class PlayerService {
   playersLength = 4;
-  playersData$ = new BehaviorSubject<IPlayersData[]>([]);
+  playersData$ = new BehaviorSubject<IPlayersData[]>([
+    {
+    name: 'Alex',
+    email: 'alexkaroh@gmail.com'
+    }, {
+    name: 'Oleg',
+    email: ''
+    }
+  ]);
 
   constructor() {}
 
@@ -26,7 +34,7 @@ export class PlayerService {
     this.PlayersData = playersData; 
   }
 
-  sortPlayersDataByName(searchVal : string) {
+  sortPlayersByName(searchVal : string) {
     this.PlayersData = this.PlayersData.sort(this.sortByName(searchVal));
   }
 

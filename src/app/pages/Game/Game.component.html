@@ -7,54 +7,34 @@
     <div class="game-throws">
       <div class="throw-container">
         <div class="throw-column">
-          <span class="throw-number light-font">Dart 1</span>
-          <span class="throw-number light-font">Dart 2</span>
-          <span class="throw-number light-font">Dart 3</span>
+          <span class="throw-number light-font" *ngFor="let throw of throwsNumber">Dart {{throw}}</span>
         </div>
-        <div class="players-throws" *ngIf="(playersService.playersData$| async) as players">
+        <div class="players-throws" *ngIf="(playersService.playersData$ | async) as players">
           <div class="player-table" *ngFor="let player of players">
             <span class="player-name light-font">{{ player.name }}</span>
             <div class="throw-table">
-              <div class="throw-info">
-                <input type="text" class="throw-input">
-                <button class="multiply-button">x1</button>
-                <button class="multiply-button">x2</button>
-                <button class="multiply-button rounded">x3</button>
-              </div>
-              <div class="throw-info">
-                <input type="text" class="throw-input">
-                <button class="multiply-button">x1</button>
-                <button class="multiply-button">x2</button>
-                <button class="multiply-button rounded">x3</button>
-              </div>
-              <div class="throw-info">
-                <input type="text" class="throw-input">
-                <button class="multiply-button">x1</button>
-                <button class="multiply-button">x2</button>
-                <button class="multiply-button rounded">x3</button>
+              <div class="throw-info" [formGroup]="scoreControl!" *ngFor="let throw of throwsNumber; let throwIndex = index">
+                <input type="text" class="throw-input" [formControlName]="player.name + throwIndex">
+                <button class="multiply-button" *ngFor="let multiply of possibleMultiplies; let multiplyIndex = index" (click)="setMultiply(player.name, multiplyIndex, throwIndex)" [ngClass]="multiplyValues[player.name + throwIndex] === multiply ? multiply === 3 ? 'rounded selected' : 'selected' : '' || multiply === 3 ? 'rounded' : ''">{{ multiply + 'x' }}</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <button class="add-step-button">Add</button>  
+      <button class="add-step-button" (click)="makeStep()">Add</button>  
     </div>
-    <div class="game-score" *ngIf="(playersService.playersData$| async) as players">
+    <div class="game-score" *ngIf="(playersService.playersData$ | async) as players">
       <div class="players-names">
         <span class="name" *ngFor="let player of players">{{ player.name }}</span>
       </div>
-      <div class="score-field">
-        <div class="step-score">
-          <span class="score">501</span>
-          <span class="score">501</span>
+      <div class="score-field" *ngIf="(gameService.gameHistory$ | async) as steps">
+        <div class="step-score init">
+          <span class="score" *ngFor="let player of players">501</span>
         </div>
-        <div class="step-score">
-          <span class="score">501</span>
-          <span class="score">501</span>
-        </div>
-        <div class="step-score">
-          <span class="score">501</span>
-          <span class="score">501</span>
+        <div class="step-score" *ngFor="let step of steps; let i = index">
+          <span class="step">{{ i + 1 }}</span>
+          <span class="score" *ngFor="let player of players">{{ step[player.name] }}</span>
+          <img class="info" src="../../../assets/info.svg" />
         </div>
       </div>
     </div>

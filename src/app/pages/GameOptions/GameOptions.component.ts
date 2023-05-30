@@ -20,6 +20,6 @@ export class GameOptionsComponent implements OnInit {
     this.findControl = new FormControl('');
     this.findControl.valueChanges.pipe(
       debounceTime(300)
-    ).subscribe((searchVal) => this.playersService.sortPlayersDataByName(searchVal))
+    ).subscribe((searchVal) => this.playersService.sortPlayersByName(searchVal))
   }
 }
