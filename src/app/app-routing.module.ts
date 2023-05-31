@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddPlayerComponent } from './pages/AddPlayer/AddPlayer.component';
-import { GameComponent } from './pages/Game/Game.component';
-import { GameOptionsComponent } from './pages/GameOptions/GameOptions.component';
+import { AddPlayerComponent } from './components/AddPlayer/AddPlayer.component';
+import { GameComponent } from './components/Game/Game.component';
+import { GameOptionsComponent } from './components/GameOptions/GameOptions.component';
 
 const routes: Routes = [
   { path: 'addplayer', component: AddPlayerComponent },

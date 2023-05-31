@@ -15,7 +15,10 @@ export class PlayerService {
     }, {
     name: 'Oleg',
     email: ''
-    }
+    }, {
+      name: 'Vses',
+      email: ''
+      }
   ]);
 
   constructor() {}

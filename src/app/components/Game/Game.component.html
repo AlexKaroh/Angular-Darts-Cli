@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <button class="add-step-button" (click)="makeStep()">Add</button>  
+      <button class="add-step-button" (click)="getPoints()">Add</button>  
     </div>
     <div class="game-score" *ngIf="(playersService.playersData$ | async) as players">
       <div class="players-names">
@@ -29,12 +29,12 @@
       </div>
       <div class="score-field" *ngIf="(gameService.gameHistory$ | async) as steps">
         <div class="step-score init">
-          <span class="score" *ngFor="let player of players">501</span>
+          <span class="score" *ngFor="let player of players">{{gameService.startedScore}}</span>
         </div>
         <div class="step-score" *ngFor="let step of steps; let i = index">
-          <span class="step">{{ i + 1 }}</span>
+          <span class="step">{{ i | stepCounter}}</span>
           <span class="score" *ngFor="let player of players">{{ step[player.name] }}</span>
-          <img class="info" src="../../../assets/info.svg" />
+          <img class="info" src="../../../assets/info-icon.svg" />
         </div>
       </div>
     </div>
