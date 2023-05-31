@@ -8,10 +8,12 @@ import { GameComponent } from './components/Game/Game.component';
 import { LogoComponent } from './components/Logo/Logo.component';
 import { GameOptionsComponent } from './components/GameOptions/GameOptions.component';
 import { StepCounterPipe } from 'src/pipes/stepCounter.pipe';
+import { PopupComponent } from './components/Popup/Popup.component';
 
 @NgModule({
   declarations: [
     StepCounterPipe,
+    PopupComponent,
     GameOptionsComponent,
     HeaderComponent,
     AddPlayerComponent,

@@ -14,13 +14,20 @@ const DEAD_END_VALUE = 1;
 const FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER = 20;
 const SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER = 30;
 
+export type gamemodeType = typeof GameMode[keyof typeof GameMode];
+
+enum GameMode {
+  FIRST = 501,
+  SECOND = 301
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
   gameHistory$ = new BehaviorSubject<IGameHistory[]>([]);
-  gameMode = [501, 301];
-  selectedMode?: number;
+  gameMode: gamemodeType[] = [GameMode.FIRST, GameMode.SECOND];
+  selectedMode: number | null = null;
   playersScore: { [key: string]: number } = {};
   startedScore?: number;
   winner?: string | null;
@@ -35,12 +42,18 @@ export class GameService {
     this.gameHistory$.next(vlaue);
   }
 
-  selectMode(mode: number){
-    this.selectedMode = mode;
+  selectMode(mode: gamemodeType){
+    if (mode === 501) {
+      this.selectedMode = GameMode.FIRST;
+    } else {
+      this.selectedMode = GameMode.SECOND;
+    }
   }
 
   setGameMode() {
-    if (this.selectedMode === 501) {
+    this.gameHistory = [];
+    this.winner = undefined;
+    if (this.selectedMode === GameMode.FIRST) {
       this.startedScore = GAME_501_START_VALUE;
       for (const player of this.playersService.PlayersData) {
         this.playersScore[player.name] = this.startedScore;
@@ -92,7 +105,7 @@ export class GameService {
       if (winner) {
         this.setWinner(winner.name);
       } else if (this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER && !winner) {
-        this.setWinner(null);
+        this.setWinner('DRAW!');
       }
     }
   }

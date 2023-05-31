@@ -39,9 +39,5 @@
       </div>
     </div>
   </div>
-
-  <div class="error-message" *ngIf="playersService.PlayersData.length < 2">
-    <span>Add at least 2 players to start the game</span>
-    <button class="back-button" (click)="routerService.redirectTo('addplayer')">Add</button>
-  </div>
+  <app-Popup *ngIf="gameService.winner"></app-Popup>
 </div>

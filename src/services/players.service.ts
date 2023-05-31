@@ -18,7 +18,7 @@ export class PlayerService {
     }, {
       name: 'Vses',
       email: ''
-      }
+    }
   ]);
 
   constructor() {}

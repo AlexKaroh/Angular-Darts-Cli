@@ -1,0 +1,7 @@
+<div class="wrapper"> 
+  <div class="popup">
+    <span *ngIf="gameService.winner !== 'DRAW!'">Congrats! Winner : {{gameService.winner}}</span>
+    <span *ngIf="gameService.winner === 'DRAW!'">{{gameService.winner}}</span>
+    <button class="back-button" (click)="routerService.redirectTo('options')">Start Again</button>
+  </div>
+</div>
