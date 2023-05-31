@@ -112,6 +112,18 @@ export class GameService {
   }
 
   nullifyPlayerPoints() {
-    //TODO: CREATE LOGIC FOR THIS FUNC
+    const playerScores = Object.values(this.playersScore);
+    const playerNames = Object.keys(this.playersScore);
+    console.log(playerScores);
+    console.log(playerNames);
+
+    for (let i = 0; i < playerNames.length; i++) {
+      const currentPlayerScore = playerScores[i];
+      if (currentPlayerScore > 0) {
+        const currentPlayer = playerNames[i];
+        this.playersScore[currentPlayer] = playerScores[i];
+      }
+    }
   }
+  
 }
