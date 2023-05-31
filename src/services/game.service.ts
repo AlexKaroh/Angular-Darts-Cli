@@ -4,29 +4,25 @@ import { IGameHistory } from 'src/interfaces/IGameHistory';
 import { IPlayersData } from 'src/interfaces/IPlayersData';
 import { PlayerService } from './players.service';
 import { Mupltiplicator } from 'src/enums/Mupltiplicator.enum';
+import { GamemodeType } from 'src/types/GameMode.type';
+import { GameMode } from 'src/enums/GameMode.enum';
 
 const GAME_301_START_VALUE = 0;
 const GAME_301_WIN_VALUE = 301;
 
 const GAME_501_START_VALUE = 501;
 const GAME_501_WIN_VALUE = 0;
+
 const DEAD_END_VALUE = 1;
 const FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER = 20;
 const SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER = 30;
-
-export type gamemodeType = typeof GameMode[keyof typeof GameMode];
-
-enum GameMode {
-  FIRST = 501,
-  SECOND = 301
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
   gameHistory$ = new BehaviorSubject<IGameHistory[]>([]);
-  gameMode: gamemodeType[] = [GameMode.FIRST, GameMode.SECOND];
+  gameMode: GamemodeType[] = [GameMode.FIRST, GameMode.SECOND];
   selectedMode: number | null = null;
   playersScore: { [key: string]: number } = {};
   startedScore?: number;
@@ -42,48 +38,53 @@ export class GameService {
     this.gameHistory$.next(vlaue);
   }
 
-  selectMode(mode: gamemodeType){
-    if (mode === 501) {
-      this.selectedMode = GameMode.FIRST;
-    } else {
-      this.selectedMode = GameMode.SECOND;
-    }
-  }
-
-  setGameMode() {
-    this.gameHistory = [];
-    this.winner = undefined;
-    if (this.selectedMode === GameMode.FIRST) {
-      this.startedScore = GAME_501_START_VALUE;
-      for (const player of this.playersService.PlayersData) {
-        this.playersScore[player.name] = this.startedScore;
-      }
-    } else {
-      this.startedScore = GAME_301_START_VALUE;
-      for (const player of this.playersService.PlayersData) {
-        this.playersScore[player.name] = this.startedScore;
-      }
-    }
-
-  }
-
   setWinner(player: string | null) {
     this.winner = player;
-    console.log(this.winner);
+  }
+
+  selectMode(mode: GamemodeType){
+    this.gameHistory = [];
+    this.winner = undefined;
+
+    if (mode === GameMode.FIRST) {
+      this.selectedMode = GameMode.FIRST;
+      this.startedScore = GAME_501_START_VALUE;
+    } else {
+      this.selectedMode = GameMode.SECOND;
+      this.startedScore = GAME_301_START_VALUE;
+    }
+
+    for (const player of this.playersService.PlayersData) {
+      this.playersScore[player.name] = this.startedScore;
+    }
   }
 
   makeStep(playerScore: number, totalThrowScore: number, stepPoints: {[key: string]: number},player: IPlayersData, multiplyValue: number) {
-    if (playerScore < totalThrowScore || playerScore - totalThrowScore === DEAD_END_VALUE || playerScore - totalThrowScore === GAME_501_WIN_VALUE && multiplyValue !== Mupltiplicator.X2) {
-      stepPoints[player.name] = this.playersScore[player.name];
-      this.playersScore[player.name] = stepPoints[player.name];
-    } else {
-      stepPoints[player.name] = playerScore - totalThrowScore;
-      this.playersScore[player.name] = stepPoints[player.name];
+    if (this.selectedMode === GameMode.FIRST) {
+      if (playerScore < totalThrowScore || playerScore - totalThrowScore === DEAD_END_VALUE || playerScore - totalThrowScore === GAME_501_WIN_VALUE && multiplyValue !== Mupltiplicator.X2) {
+        stepPoints[player.name] = this.playersScore[player.name];
+        this.playersScore[player.name] = stepPoints[player.name];
+      } else {
+        stepPoints[player.name] = playerScore - totalThrowScore;
+        this.playersScore[player.name] = stepPoints[player.name];
 
-      if (stepPoints[player.name] === GAME_501_WIN_VALUE) {
-        this.setWinner(player.name);
+        if (stepPoints[player.name] === GAME_501_WIN_VALUE) {
+          this.setWinner(player.name);
+        }
       }
-    }
+    } else {
+        if ((playerScore + totalThrowScore) > GAME_301_WIN_VALUE) {
+          stepPoints[player.name] = this.playersScore[player.name];
+          this.playersScore[player.name] = stepPoints[player.name];
+        } else {
+          stepPoints[player.name] = playerScore + totalThrowScore;
+          this.playersScore[player.name] = stepPoints[player.name];
+
+          if (stepPoints[player.name] === GAME_301_WIN_VALUE) {
+            this.setWinner(player.name);
+          }
+        }
+      }
   }
 
   checkWinner() {
@@ -110,4 +111,7 @@ export class GameService {
     }
   }
 
+  nullifyPlayerPoints() {
+    //TODO: CREATE LOGIC FOR THIS FUNC
+  }
 }

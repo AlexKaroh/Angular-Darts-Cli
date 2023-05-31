@@ -17,6 +17,7 @@ export class GameOptionsComponent implements OnInit {
   constructor( public playersService: PlayerService, public gameService: GameService, public routerService: RouterService ) { }
 
   ngOnInit() {
+    this.gameService.selectedMode = null;
     this.findControl = new FormControl('');
     this.findControl.valueChanges.pipe(
       debounceTime(300)

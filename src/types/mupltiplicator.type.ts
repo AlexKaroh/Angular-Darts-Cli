@@ -1,3 +1,3 @@
 import { Mupltiplicator } from "src/enums/Mupltiplicator.enum";
 
-export type mupltiplicatorType = typeof Mupltiplicator[keyof typeof Mupltiplicator];
+export type MupltiplicatorType = typeof Mupltiplicator[keyof typeof Mupltiplicator];
