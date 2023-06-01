@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './components/Header/app.component';
 import { AddPlayerComponent } from './components/AddPlayer/add-player.component';
-import { GameComponent } from './components/Game/game.component.';
+import { GameComponent } from './components/Game/game.component';
 import { LogoComponent } from './components/Logo/logo.component';
 import { GameOptionsComponent } from './components/GameOptions/game-options.component';
 import { StepCounterPipe } from 'src/pipes/step-counter.pipe';

@@ -30,12 +30,16 @@ export class GameComponent implements OnInit {
     this.setMultiplyByDefaultValue();
   }
 
+  get playersData() {
+    return this.playersService.players;
+  }
+
   setMultiply(playerName: string, multiplyIndex: number, throwIndex: number) {
     this.multiplyValues[`${playerName}${throwIndex}`] = this.possibleMultiplies[multiplyIndex];
   }
 
   setMultiplyByDefaultValue() {
-    for (const player of this.playersService.PlayersData) {
+    for (const player of this.playersService.players) {
       for (let i = 0; i < this.throwsNumber.length; i++) {
         this.multiplyValues[`${player.name}${i}`] = Mupltiplicator.X1;
       }
@@ -43,7 +47,7 @@ export class GameComponent implements OnInit {
   }
 
   getPoints() {
-    const playersData = this.playersService.PlayersData;
+    const playersData = this.playersService.players;
     const gameHistory = this.gameService.gameHistory;
     const stepPoints: { [key: string]: number } = {};
     for (const player of playersData) {
@@ -68,7 +72,7 @@ export class GameComponent implements OnInit {
 
   private initForm() {
     const formGroupConfig: { [key: string]: string[] } = {};
-    const playersData = this.playersService.PlayersData;
+    const playersData = this.playersService.players;
 
     for (const player of playersData) {
       for (let i = 0; i < this.throwsNumber.length; i++) {

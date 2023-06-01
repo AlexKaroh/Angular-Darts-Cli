@@ -54,7 +54,7 @@ export class GameService {
       this.startedScore = GAME_301_START_VALUE;
     }
 
-    for (const player of this.playersService.PlayersData) {
+    for (const player of this.playersService.players) {
       this.playersScore[player.name] = this.startedScore;
     }
   }
@@ -95,7 +95,7 @@ export class GameService {
       let winner: IPlayersData | null = null;
       let minScore = Number.MAX_VALUE;
     
-      for (const player of this.playersService.PlayersData) {
+      for (const player of this.playersService.players) {
         const playerScore = this.playersScore[player.name];
   
         if (playerScore < minScore) {

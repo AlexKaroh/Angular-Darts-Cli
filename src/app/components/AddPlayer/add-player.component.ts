@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { PlayerService } from 'src/services/players.service';
 
 const MAX_NAME_LENGTH = 20;
+
+type ControlType = keyof['AddPlayerComponent']['FormGroup']
 
 @Component({
   selector: 'app-addplayer',
@@ -10,21 +12,20 @@ const MAX_NAME_LENGTH = 20;
   styleUrls: ['./add-player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPlayerComponent implements OnInit {
-  playerDataControl?: FormGroup;
+export class AddPlayerComponent {
+  playerDataControl: ControlType = this.fb.group({
+    name: ['', [Validators.required, Validators.maxLength(MAX_NAME_LENGTH)]],
+    email: ['', [Validators.email]]
+  });
 
   constructor( private fb: FormBuilder , private playersService: PlayerService) {}
-
-  ngOnInit() {
-    this.playerDataControl = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(MAX_NAME_LENGTH)]],
-      email: ['', [Validators.email]]
-    });
-  }
   
   addPlayer() {
-    if (this.playerDataControl?.valid) {
-      const currentData = this.playersService.PlayersData;
+    if (this.playerDataControl.invalid) {
+      this.playerDataControl.markAllAsTouched();
+      return;
+    } else {
+      const currentData = this.playersService.players;
       const name = this.playerDataControl.get('name')?.value;
       const email = this.playerDataControl.get('email')?.value;
       const newData = {
@@ -33,17 +34,13 @@ export class AddPlayerComponent implements OnInit {
       };
 
       currentData.push(newData);
-      this.playersService.PlayersData = currentData;
+      this.playersService.players = currentData;
       this.playerDataControl.reset();
-    } else {
-      Object.keys(this.playerDataControl!.controls)
-        .forEach(controlName => this.playerDataControl!.controls[controlName].markAsTouched());
-      return;
     }
   }
 
   getErrorMessage(controlName: string): string {
-    const control = this.playerDataControl!.controls[controlName];
+    const control = this.playerDataControl.controls[controlName];
     if (control.errors) {
       if (control.errors['required']) {
         return 'This field is required';
@@ -56,9 +53,8 @@ export class AddPlayerComponent implements OnInit {
     return '';
   }
 
-  isControlInvalid(controlName: string): boolean {
-    const control = this.playerDataControl!.controls[controlName];
-    const result = control.invalid && control.touched;
-    return result;
+  isControlInvalid(controlName: ControlType): boolean {
+    const control = this.playerDataControl.controls[controlName];
+    return control.invalid && control.touched;
   }
 }

@@ -9,11 +9,11 @@
       </div>
       <button class="add-button" (click)="routerService.redirectTo('addplayer')">New Player</button>
     </div>
-    <ul class="players-list" *ngIf="(playersService.playersData$| async) as players">
-      <li class="player-info"  *ngFor="let player of players | slice:0:playersService.playersLength; let i = index">
+    <ul class="players-list" *ngIf="playersData">
+      <li class="player-info"  *ngFor="let player of playersData; let i = index">
         <span class="palyer-name">{{ player.name }}</span>
         <span class="palyer-email">{{ player.email }}</span>
-        <button class="cross-button" (click)="playersService.removePlayer(i)">✖</button>
+        <button class="cross-button" (click)="removePlayer(i)">✖</button>
       </li>
     </ul>
     <span class="message light-font">Choose game</span>
