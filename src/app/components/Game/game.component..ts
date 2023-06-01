@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { GameMode } from 'src/enums/GameMode.enum';
-import { Mupltiplicator } from 'src/enums/Mupltiplicator.enum';
-import { ThrowNumber } from 'src/enums/ThrowNumber.enum';
+import { GameMode } from 'src/enums/game-mode';
+import { ThrowNumber } from 'src/enums/throw-number';
 import { GameService } from 'src/services/game.service';
 import { PlayerService } from 'src/services/players.service';
 import { RouterService } from 'src/services/router.service';
-import { MupltiplicatorType } from 'src/types/Mupltiplicator.type';
-import { ThrowNumberType } from 'src/types/ThrowNumber.type';
+import { MupltiplicatorType } from 'src/types/mupltiplicator.type';
+import { Mupltiplicator } from 'src/enums/mupltiplicator';
+import { ThrowNumberType } from 'src/types/throw-number.type';
 
 const MISS_SHOT = 0;
 
 @Component({
   selector: 'app-game',
-  templateUrl: './Game.component.html',
-  styleUrls: ['./Game.component.scss'],
+  templateUrl: './game.component.html',
+  styleUrls: ['./game.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameComponent implements OnInit {

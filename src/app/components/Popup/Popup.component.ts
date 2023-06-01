@@ -3,9 +3,9 @@ import { GameService } from 'src/services/game.service';
 import { RouterService } from 'src/services/router.service';
 
 @Component({
-  selector: 'app-Popup',
-  templateUrl: './Popup.component.html',
-  styleUrls: ['./Popup.component.scss'],
+  selector: 'app-popup',
+  templateUrl: './popup.component.html',
+  styleUrls: ['./popup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupComponent {

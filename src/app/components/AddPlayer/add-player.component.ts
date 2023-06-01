@@ -6,8 +6,8 @@ const MAX_NAME_LENGTH = 20;
 
 @Component({
   selector: 'app-addplayer',
-  templateUrl: './AddPlayer.component.html',
-  styleUrls: ['./AddPlayer.component.scss'],
+  templateUrl: './add-player.component.html',
+  styleUrls: ['./add-player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPlayerComponent implements OnInit {

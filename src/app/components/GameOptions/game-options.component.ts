@@ -6,9 +6,9 @@ import { GameService } from 'src/services/game.service';
 import { RouterService } from 'src/services/router.service';
 
 @Component({
-  selector: 'app-GameOptions',
-  templateUrl: './GameOptions.component.html',
-  styleUrls: ['./GameOptions.component.scss'],
+  selector: 'app-gameoptions',
+  templateUrl: './game-options.component.html',
+  styleUrls: ['./game-options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameOptionsComponent implements OnInit {

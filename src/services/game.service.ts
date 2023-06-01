@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IGameHistory } from 'src/interfaces/IGameHistory';
-import { IPlayersData } from 'src/interfaces/IPlayersData';
+import { GameHistory } from 'src/interfaces/game-history';
+import { IPlayersData } from 'src/interfaces/players-data';
 import { PlayerService } from './players.service';
-import { Mupltiplicator } from 'src/enums/Mupltiplicator.enum';
-import { GamemodeType } from 'src/types/GameMode.type';
-import { GameMode } from 'src/enums/GameMode.enum';
+import { GamemodeType } from 'src/types/game-mode.type';
+import { GameMode } from 'src/enums/game-mode';
+import { Mupltiplicator } from 'src/enums/mupltiplicator';
 
 const GAME_301_START_VALUE = 0;
 const GAME_301_WIN_VALUE = 301;
@@ -21,7 +21,7 @@ const SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER = 30;
   providedIn: 'root'
 })
 export class GameService {
-  gameHistory$ = new BehaviorSubject<IGameHistory[]>([]);
+  gameHistory$ = new BehaviorSubject<GameHistory[]>([]);
   gameMode: GamemodeType[] = [GameMode.FIRST, GameMode.SECOND];
   selectedMode: number | null = null;
   playersScore: { [key: string]: number } = {};

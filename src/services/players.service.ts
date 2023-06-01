@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IPlayersData } from 'src/interfaces/IPlayersData';
+import { IPlayersData } from 'src/interfaces/players-data';
 
 
 @Injectable({

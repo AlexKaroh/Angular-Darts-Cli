@@ -1,3 +1,3 @@
-import { GameMode } from "src/enums/GameMode.enum";
+import { GameMode } from "src/enums/game-mode";
 
 export type GamemodeType = typeof GameMode[keyof typeof GameMode];
