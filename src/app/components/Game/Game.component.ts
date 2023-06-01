@@ -6,8 +6,10 @@ import { ThrowNumber } from 'src/enums/ThrowNumber.enum';
 import { GameService } from 'src/services/game.service';
 import { PlayerService } from 'src/services/players.service';
 import { RouterService } from 'src/services/router.service';
-import { MupltiplicatorType } from 'src/types/mupltiplicator.type';
+import { MupltiplicatorType } from 'src/types/Mupltiplicator.type';
 import { ThrowNumberType } from 'src/types/ThrowNumber.type';
+
+const MISS_SHOT = 0;
 
 @Component({
   selector: 'app-game',
@@ -44,27 +46,23 @@ export class GameComponent implements OnInit {
     const playersData = this.playersService.PlayersData;
     const gameHistory = this.gameService.gameHistory;
     const stepPoints: { [key: string]: number } = {};
-  
     for (const player of playersData) {
       let totalThrowScore = 0;
       const playerScore = this.gameService.playersScore[player.name];
-
       for (let i = 0; i < this.throwsNumber.length; i++) {
-        const throwValue = this.scoreControl?.value[`${player.name}${i}`] || 0;
+        const throwValue = this.scoreControl?.value[`${player.name}${i}`] || MISS_SHOT;
         const multiplyValue = this.multiplyValues[`${player.name}${i}`];
         totalThrowScore += throwValue * multiplyValue;
         this.gameService.makeStep(playerScore, totalThrowScore, stepPoints, player, multiplyValue);
         this.multiplyValues[`${player.name}${i}`] = Mupltiplicator.X1;
       }
     }
-  
     gameHistory.push(stepPoints);
     this.gameService.gameHistory = gameHistory;
     if (this.gameService.selectedMode === GameMode.FIRST) {
       this.gameService.checkWinner();
-    } else {
-      this.gameService.nullifyPlayerPoints();
     }
+   
     this.scoreControl?.reset();
   }
 

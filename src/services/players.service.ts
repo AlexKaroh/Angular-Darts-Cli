@@ -8,18 +8,7 @@ import { IPlayersData } from 'src/interfaces/IPlayersData';
 })
 export class PlayerService {
   playersLength = 4;
-  playersData$ = new BehaviorSubject<IPlayersData[]>([
-    {
-    name: 'Alex',
-    email: 'alexkaroh@gmail.com'
-    }, {
-    name: 'Oleg',
-    email: ''
-    }, {
-      name: 'Vses',
-      email: ''
-    }
-  ]);
+  playersData$ = new BehaviorSubject<IPlayersData[]>([]);
 
   constructor() {}
 

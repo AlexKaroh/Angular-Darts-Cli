@@ -73,19 +73,22 @@ export class GameService {
         }
       }
     } else {
-        if ((playerScore + totalThrowScore) > GAME_301_WIN_VALUE) {
+          if ((playerScore + totalThrowScore) > GAME_301_WIN_VALUE) {
           stepPoints[player.name] = this.playersScore[player.name];
           this.playersScore[player.name] = stepPoints[player.name];
-        } else {
-          stepPoints[player.name] = playerScore + totalThrowScore;
-          this.playersScore[player.name] = stepPoints[player.name];
-
-          if (stepPoints[player.name] === GAME_301_WIN_VALUE) {
-            this.setWinner(player.name);
+          } else if (playerScore > GAME_301_START_VALUE && (Object.values(stepPoints)).some(score => score === playerScore + totalThrowScore)) {
+            stepPoints[player.name] = GAME_301_START_VALUE;
+            this.playersScore[player.name] = stepPoints[player.name];
+          } else {
+            stepPoints[player.name] = playerScore + totalThrowScore;
+            this.playersScore[player.name] = stepPoints[player.name];
+            if (stepPoints[player.name] === GAME_301_WIN_VALUE) {
+              this.setWinner(player.name);
+            } 
           }
-        }
       }
   }
+
 
   checkWinner() {
     if (this.gameHistory.length === FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER || this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER) {
@@ -110,20 +113,4 @@ export class GameService {
       }
     }
   }
-
-  nullifyPlayerPoints() {
-    const playerScores = Object.values(this.playersScore);
-    const playerNames = Object.keys(this.playersScore);
-    console.log(playerScores);
-    console.log(playerNames);
-
-    for (let i = 0; i < playerNames.length; i++) {
-      const currentPlayerScore = playerScores[i];
-      if (currentPlayerScore > 0) {
-        const currentPlayer = playerNames[i];
-        this.playersScore[currentPlayer] = playerScores[i];
-      }
-    }
-  }
-  
 }
