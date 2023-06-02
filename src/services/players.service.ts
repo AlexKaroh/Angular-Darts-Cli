@@ -13,12 +13,4 @@ export class PlayerService {
   ]);
 
   constructor() {}
-
-  get players() {
-    return this.playersData.getValue();
-  }
-
-  set players(vlaue) {
-    this.playersData.next(vlaue);
-  }
 }

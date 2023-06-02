@@ -7,10 +7,10 @@
         <input class="search" type="text" placeholder="Search" [formControl]="findControl!">
         <button class="search-button"><img src="../../../assets/search-icon.svg"></button>
       </div>
-      <button class="add-button" (click)="routerService.redirectTo('addplayer')">New Player</button>
+      <button class="add-button" routerLink="/addplayer">New Player</button>
     </div>
-    <ul class="players-list" *ngIf="playersData">
-      <li class="player-info"  *ngFor="let player of playersData; let i = index">
+    <ul class="players-list" *ngIf="players">
+      <li class="player-info"  *ngFor="let player of players; let i = index">
         <span class="palyer-name">{{ player.name }}</span>
         <span class="palyer-email">{{ player.email }}</span>
         <button class="cross-button" (click)="removePlayer(i)">✖</button>
@@ -18,10 +18,10 @@
     </ul>
     <span class="message light-font">Choose game</span>
     <div class="game-mode-container">
-      <button class="mode-button" *ngFor="let mode of gameService.gameMode" (click)="gameService.selectMode(mode)" [ngClass]="gameService.selectedMode === mode ? 'active' : 'disabled'">
+      <button class="mode-button" *ngFor="let mode of gameModes" (click)="selectedMode = mode" [ngClass]="selectedMode === mode ? 'active' : 'disabled'">
         <span class="mode-font">{{mode}}</span>
       </button>
     </div>
-    <button class="start-button" [ngClass]="gameService.selectedMode ? 'active' : 'disabled'" [attr.disabled]="gameService.selectedMode ? null : true" (click)="routerService.redirectTo('game')"> Start </button>
+    <button class="start-button" routerLink="/game" [ngClass]="selectedMode ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true"> Start </button>
   </div>
 </div>

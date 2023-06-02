@@ -1,5 +1,5 @@
 <div class="main">
-  <div class="game" *ngIf="playersService.players.length >= 2">
+  <div class="game" *ngIf="players.length >= 2">
     <div class="game-header">
       <app-logo class="logo"></app-logo>
       <button class="new-game-button" (click)="routerService.redirectTo('options')">New game</button>
@@ -9,8 +9,8 @@
         <div class="throw-column">
           <span class="throw-number light-font" *ngFor="let throw of throwsNumber">Dart {{throw}}</span>
         </div>
-        <div class="players-throws" *ngIf="playersData">
-          <div class="player-table" *ngFor="let player of playersData">
+        <div class="players-throws" *ngIf="players">
+          <div class="player-table" *ngFor="let player of players">
             <span class="player-name light-font">{{ player.name }}</span>
             <div class="throw-table">
               <div class="throw-info" [formGroup]="scoreControl!" *ngFor="let throw of throwsNumber; let throwIndex = index">
@@ -23,17 +23,17 @@
       </div>
       <button class="add-step-button" (click)="getPoints()">Add</button>  
     </div>
-    <div class="game-score" *ngIf="playersData">
+    <div class="game-score" *ngIf="players">
       <div class="players-names">
-        <span class="name" *ngFor="let player of playersData">{{ player.name }}</span>
+        <span class="name" *ngFor="let player of players">{{ player.name }}</span>
       </div>
-      <div class="score-field" *ngIf="(gameService.gameHistory$ | async) as steps">
+      <div class="score-field" *ngIf="gameHistory">
         <div class="step-score init">
-          <span class="score" *ngFor="let player of playersData">{{gameService.startedScore}}</span>
+          <span class="score" *ngFor="let player of players">{{gameService.startedScore}}</span>
         </div>
-        <div class="step-score" *ngFor="let step of steps; let i = index">
+        <div class="step-score" *ngFor="let step of gameHistory; let i = index">
           <span class="step">{{ i | stepCounter}}</span>
-          <span class="score" *ngFor="let player of playersData">{{ step[player.name] }}</span>
+          <span class="score" *ngFor="let player of players">{{ step[player.name] }}</span>
           <img class="info" src="../../../assets/info-icon.svg" />
         </div>
       </div>

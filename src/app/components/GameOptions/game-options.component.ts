@@ -1,36 +1,55 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PlayerService } from 'src/services/players.service';
 import { FormControl } from '@angular/forms';
 import { GameService } from 'src/services/game.service';
-import { RouterService } from 'src/services/router.service';
 
 @Component({
   selector: 'app-gameoptions',
   templateUrl: './game-options.component.html',
   styleUrls: ['./game-options.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameOptionsComponent implements OnInit {
-  findControl?: FormControl;
+export class GameOptionsComponent {
+  findControl = new FormControl('');
 
-  constructor( private playersService: PlayerService, public gameService: GameService, public routerService: RouterService ) { }
-
-  get playersData() {
-    return this.playersService.players;
-  }
-
-  set playersData(vlaue) {
-    this.playersService.players = vlaue;
+  constructor(
+    private playersService: PlayerService,
+    private gameService: GameService
+  ) {
+    this.selectedMode = null;
   }
 
   removePlayer(index: number) {
-    const updatedArr = Array.from(this.playersData);
+    const updatedArr = Array.from(this.players);
     updatedArr.splice(index, 1);
-    this.playersData = updatedArr;
+    this.players = updatedArr;
   }
 
-  ngOnInit() {
-    this.gameService.selectedMode = null;
-    this.findControl = new FormControl('');
+  get players() {
+    return this.playersService.playersData.getValue();
+  }
+
+  set players(vlaue) {
+    this.playersService.playersData.next(vlaue);
+  }
+
+  get gameHistory() {
+    return this.gameService.playersMoves.getValue();
+  }
+
+  set gameHistory(vlaue) {
+    this.gameService.playersMoves.next(vlaue);
+  }
+
+  get selectedMode() {
+    return this.gameService.selectedMode;
+  }
+
+  set selectedMode(value) {
+    this.gameService.selectMode(value);
+  }
+
+  get gameModes() {
+    return this.gameService.gameMode;
   }
 }

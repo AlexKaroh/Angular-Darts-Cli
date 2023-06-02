@@ -10,7 +10,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 export class HeaderComponent {
   links = [
     { name: 'Add player', routerLink: '/addplayer' },
-    { name: 'Options', routerLink: '/options' },
-    { name: 'Game', routerLink: '/game' }
+    { name: 'Options', routerLink: '/options' }
   ];
 }

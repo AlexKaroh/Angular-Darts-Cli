@@ -23,15 +23,27 @@ export class GameComponent implements OnInit {
   possibleMultiplies: MupltiplicatorType[] = [Mupltiplicator.X1, Mupltiplicator.X2, Mupltiplicator.X3];
   multiplyValues: { [key : string]: number } = {};
 
-  constructor( public playersService: PlayerService, public gameService: GameService, public routerService: RouterService, private fb: FormBuilder ) { }
+  constructor( private playersService: PlayerService, public gameService: GameService, public routerService: RouterService, private fb: FormBuilder ) { }
 
   ngOnInit() {
     this.initForm();
     this.setMultiplyByDefaultValue();
   }
 
-  get playersData() {
-    return this.playersService.players;
+  get players() {
+    return this.playersService.playersData.getValue();
+  }
+
+  set players(vlaue) {
+    this.playersService.playersData.next(vlaue);
+  }
+
+  get gameHistory() {
+    return this.gameService.playersMoves.getValue()
+  }
+
+  set gameHistory(vlaue) {
+    this.gameService.playersMoves.next(vlaue);
   }
 
   setMultiply(playerName: string, multiplyIndex: number, throwIndex: number) {
@@ -39,7 +51,7 @@ export class GameComponent implements OnInit {
   }
 
   setMultiplyByDefaultValue() {
-    for (const player of this.playersService.players) {
+    for (const player of this.players) {
       for (let i = 0; i < this.throwsNumber.length; i++) {
         this.multiplyValues[`${player.name}${i}`] = Mupltiplicator.X1;
       }
@@ -47,7 +59,7 @@ export class GameComponent implements OnInit {
   }
 
   getPoints() {
-    const playersData = this.playersService.players;
+    const playersData = this.players;
     const gameHistory = this.gameService.gameHistory;
     const stepPoints: { [key: string]: number } = {};
     for (const player of playersData) {
@@ -72,7 +84,7 @@ export class GameComponent implements OnInit {
 
   private initForm() {
     const formGroupConfig: { [key: string]: string[] } = {};
-    const playersData = this.playersService.players;
+    const playersData = this.players;
 
     for (const player of playersData) {
       for (let i = 0; i < this.throwsNumber.length; i++) {

@@ -18,50 +18,71 @@ const FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER = 20;
 const SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER = 30;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
-  gameHistory$ = new BehaviorSubject<GameHistory[]>([]);
+  playersMoves = new BehaviorSubject<GameHistory[]>([]);
   gameMode: GamemodeType[] = [GameMode.FIRST, GameMode.SECOND];
-  selectedMode: number | null = null;
+  selectedMode: GamemodeType | null = null;
   playersScore: { [key: string]: number } = {};
   startedScore?: number;
   winner?: string | null;
-  
-  constructor( private playersService: PlayerService ) { }
+
+  constructor(private playersService: PlayerService) {}
 
   get gameHistory() {
-    return this.gameHistory$.getValue()
+    return this.playersMoves.getValue();
   }
 
   set gameHistory(vlaue) {
-    this.gameHistory$.next(vlaue);
+    this.playersMoves.next(vlaue);
+  }
+
+  get players() {
+    return this.playersService.playersData.getValue();
+  }
+
+  set players(vlaue) {
+    this.playersService.playersData.next(vlaue);
   }
 
   setWinner(player: string | null) {
     this.winner = player;
   }
 
-  selectMode(mode: GamemodeType){
-    this.gameHistory = [];
-    this.winner = undefined;
+  selectMode(mode: GamemodeType | null) {
+    if (mode) {
+      this.gameHistory = [];
+      this.winner = undefined;
 
-    if (mode === GameMode.FIRST) {
-      this.selectedMode = GameMode.FIRST;
-      this.startedScore = GAME_501_START_VALUE;
-    } else {
-      this.selectedMode = GameMode.SECOND;
-      this.startedScore = GAME_301_START_VALUE;
-    }
+      if (mode === GameMode.FIRST) {
+        this.selectedMode = GameMode.FIRST;
+        this.startedScore = GAME_501_START_VALUE;
+      } else {
+        this.selectedMode = GameMode.SECOND;
+        this.startedScore = GAME_301_START_VALUE;
+      }
 
-    for (const player of this.playersService.players) {
-      this.playersScore[player.name] = this.startedScore;
+      for (const player of this.players) {
+        this.playersScore[player.name] = this.startedScore;
+      }
     }
   }
 
-  makeStep(playerScore: number, totalThrowScore: number, stepPoints: {[key: string]: number},player: IPlayersData, multiplyValue: number) {
+  makeStep(
+    playerScore: number,
+    totalThrowScore: number,
+    stepPoints: { [key: string]: number },
+    player: IPlayersData,
+    multiplyValue: number
+  ) {
     if (this.selectedMode === GameMode.FIRST) {
-      if (playerScore < totalThrowScore || playerScore - totalThrowScore === DEAD_END_VALUE || playerScore - totalThrowScore === GAME_501_WIN_VALUE && multiplyValue !== Mupltiplicator.X2) {
+      if (
+        playerScore < totalThrowScore ||
+        playerScore - totalThrowScore === DEAD_END_VALUE ||
+        (playerScore - totalThrowScore === GAME_501_WIN_VALUE &&
+          multiplyValue !== Mupltiplicator.X2)
+      ) {
         stepPoints[player.name] = this.playersScore[player.name];
         this.playersScore[player.name] = stepPoints[player.name];
       } else {
@@ -73,31 +94,38 @@ export class GameService {
         }
       }
     } else {
-          if ((playerScore + totalThrowScore) > GAME_301_WIN_VALUE) {
-          stepPoints[player.name] = this.playersScore[player.name];
-          this.playersScore[player.name] = stepPoints[player.name];
-          } else if (playerScore > GAME_301_START_VALUE && (Object.values(stepPoints)).some(score => score === playerScore + totalThrowScore)) {
-            stepPoints[player.name] = GAME_301_START_VALUE;
-            this.playersScore[player.name] = stepPoints[player.name];
-          } else {
-            stepPoints[player.name] = playerScore + totalThrowScore;
-            this.playersScore[player.name] = stepPoints[player.name];
-            if (stepPoints[player.name] === GAME_301_WIN_VALUE) {
-              this.setWinner(player.name);
-            } 
-          }
+      if (playerScore + totalThrowScore > GAME_301_WIN_VALUE) {
+        stepPoints[player.name] = this.playersScore[player.name];
+        this.playersScore[player.name] = stepPoints[player.name];
+      } else if (
+        playerScore > GAME_301_START_VALUE &&
+        Object.values(stepPoints).some(
+          (score) => score === playerScore + totalThrowScore
+        )
+      ) {
+        stepPoints[player.name] = GAME_301_START_VALUE;
+        this.playersScore[player.name] = stepPoints[player.name];
+      } else {
+        stepPoints[player.name] = playerScore + totalThrowScore;
+        this.playersScore[player.name] = stepPoints[player.name];
+        if (stepPoints[player.name] === GAME_301_WIN_VALUE) {
+          this.setWinner(player.name);
+        }
       }
+    }
   }
 
-
   checkWinner() {
-    if (this.gameHistory.length === FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER || this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER) {
+    if (
+      this.gameHistory.length === FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER ||
+      this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER
+    ) {
       let winner: IPlayersData | null = null;
       let minScore = Number.MAX_VALUE;
-    
-      for (const player of this.playersService.players) {
+
+      for (const player of this.players) {
         const playerScore = this.playersScore[player.name];
-  
+
         if (playerScore < minScore) {
           minScore = playerScore;
           winner = player;
@@ -105,10 +133,13 @@ export class GameService {
           winner = null;
         }
       }
-    
+
       if (winner) {
         this.setWinner(winner.name);
-      } else if (this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER && !winner) {
+      } else if (
+        this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER &&
+        !winner
+      ) {
         this.setWinner('DRAW!');
       }
     }

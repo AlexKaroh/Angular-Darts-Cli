@@ -1,40 +1,56 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { PlayerService } from 'src/services/players.service';
 
 const MAX_NAME_LENGTH = 20;
-
-type ControlType = keyof['AddPlayerComponent']['FormGroup']
 
 @Component({
   selector: 'app-addplayer',
   templateUrl: './add-player.component.html',
   styleUrls: ['./add-player.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddPlayerComponent {
-  playerDataControl: ControlType = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(MAX_NAME_LENGTH)]],
-    email: ['', [Validators.email]]
+  playerDataControl: FormGroup = this.fb.group({
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(MAX_NAME_LENGTH),
+        this.validateDuplicates(),
+      ],
+    ],
+    email: ['', [Validators.email]],
   });
 
-  constructor( private fb: FormBuilder , private playersService: PlayerService) {}
-  
+  constructor(private fb: FormBuilder, private playersService: PlayerService) {}
+
+  get players() {
+    return this.playersService.playersData.getValue();
+  }
+
+  set players(vlaue) {
+    this.playersService.playersData.next(vlaue);
+  }
+
   addPlayer() {
     if (this.playerDataControl.invalid) {
       this.playerDataControl.markAllAsTouched();
       return;
     } else {
-      const currentData = this.playersService.players;
-      const name = this.playerDataControl.get('name')?.value;
-      const email = this.playerDataControl.get('email')?.value;
-      const newData = {
-        name: name,
-        email: email
-      };
-
-      currentData.push(newData);
-      this.playersService.players = currentData;
+      const newPlayers = Array.from(this.players);
+      newPlayers.push({
+        name: this.playerDataControl.get('name')?.value,
+        email: this.playerDataControl.get('email')?.value,
+      });
+      this.players = newPlayers;
       this.playerDataControl.reset();
     }
   }
@@ -46,6 +62,8 @@ export class AddPlayerComponent {
         return 'This field is required';
       } else if (control.errors['email']) {
         return 'Invalid email format';
+      } else if (control.errors['duplicate']) {
+        return 'This player name is already taken';
       } else {
         return 'Maximum length exceeded';
       }
@@ -53,8 +71,18 @@ export class AddPlayerComponent {
     return '';
   }
 
-  isControlInvalid(controlName: ControlType): boolean {
+  isControlInvalid(controlName: string): boolean {
     const control = this.playerDataControl.controls[controlName];
     return control.invalid && control.touched;
+  }
+
+  private validateDuplicates(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (this.players.some((el) => el.name === value)) {
+        return { duplicate: 'This player name is already taken' };
+      }
+      return null;
+    };
   }
 }

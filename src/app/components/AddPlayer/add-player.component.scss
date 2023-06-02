@@ -23,7 +23,7 @@
   position: relative;
   width: 310px;
   height: 55px;
-  margin-top: 55px;
+  margin: 35px 0 0 0;
   background-color: #fff0;
   color: #fff;
   font-size: 25px;
@@ -77,7 +77,7 @@
   }
 }
 
-.invalid {
+.is-invalid {
   border: 2px solid #e25f4e;
 }
 
