@@ -126,12 +126,15 @@
 .multiply-button {
   cursor: pointer;
   padding: 0 7px 0 7px;
-  height: 38px;
+  height: 36px;
+  display: flex;
+  align-items: center;
   color: #fff;
   font-size: 18px;
   border: 1px solid #ffffff50;
   background-color: #fff0;
   transition: .3s;
+
 
   &:hover {
     transition: .3s;
@@ -287,4 +290,8 @@
 .selected {
   background-color: #72e58a47;
   border: 1px solid #72e58a;
+}
+
+.is-invalid {
+  border: 2px solid #e25f4e;
 }

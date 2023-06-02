@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { GameService } from 'src/services/game.service';
-import { RouterService } from 'src/services/router.service';
 
 @Component({
   selector: 'app-popup',
@@ -10,6 +9,11 @@ import { RouterService } from 'src/services/router.service';
 })
 export class PopupComponent {
 
-  constructor( public gameService: GameService, public routerService: RouterService ) { }
+  constructor( private gameService: GameService) { }
 
+  get winner() {
+    return this.gameService.winner;
+  }
+
+  // TODO: MAKE THIS COMPONENT DUMB
 }

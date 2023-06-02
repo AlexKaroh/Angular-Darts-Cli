@@ -32,14 +32,6 @@ export class AddPlayerComponent {
 
   constructor(private fb: FormBuilder, private playersService: PlayerService) {}
 
-  get players() {
-    return this.playersService.playersData.getValue();
-  }
-
-  set players(vlaue) {
-    this.playersService.playersData.next(vlaue);
-  }
-
   addPlayer() {
     if (this.playerDataControl.invalid) {
       this.playerDataControl.markAllAsTouched();
@@ -84,5 +76,13 @@ export class AddPlayerComponent {
       }
       return null;
     };
+  }
+
+  get players() {
+    return this.playersService.playersData.getValue();
+  }
+
+  set players(vlaue) {
+    this.playersService.playersData.next(vlaue);
   }
 }

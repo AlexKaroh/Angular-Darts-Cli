@@ -2,7 +2,7 @@
   <div class="game" *ngIf="players.length >= 2">
     <div class="game-header">
       <app-logo class="logo"></app-logo>
-      <button class="new-game-button" (click)="routerService.redirectTo('options')">New game</button>
+      <button class="new-game-button" routerLink="/options">New game</button>
     </div>
     <div class="game-throws">
       <div class="throw-container">
@@ -13,9 +13,19 @@
           <div class="player-table" *ngFor="let player of players">
             <span class="player-name light-font">{{ player.name }}</span>
             <div class="throw-table">
-              <div class="throw-info" [formGroup]="scoreControl!" *ngFor="let throw of throwsNumber; let throwIndex = index">
-                <input type="text" class="throw-input" [formControlName]="player.name + throwIndex">
-                <button class="multiply-button" *ngFor="let multiply of possibleMultiplies; let multiplyIndex = index" (click)="setMultiply(player.name, multiplyIndex, throwIndex)" [ngClass]="multiplyValues[player.name + throwIndex] === multiply ? multiply === 3 ? 'rounded selected' : 'selected' : '' || multiply === 3 ? 'rounded' : ''">{{ multiply + 'x' }}</button>
+              <div class="throw-info" *ngFor="let throw of scoreControl.get(player.name).controls; let throwIndex = index">
+                <input type="text" class="throw-input" [formControl]="throw.get('points')">
+                <label class="multiply-button" for="{{multiply + player.name + throwIndex}}" *ngFor="let multiply of possibleMultiplies" [ngClass]="{'rounded': multiply === 3, 'selected': throw.get('multiply').value === multiply}">
+                  <input 
+                    style="display: none" 
+                    [formControl]="throw.get('multiply')" 
+                    type="radio" 
+                    id="{{multiply + player.name + throwIndex}}" 
+                    name="{{player.name + throwIndex + ' multiply'}}" 
+                    [value]="multiply"
+                  >
+                  <span>{{ 'X' + multiply }}</span>
+                </label>
               </div>
             </div>
           </div>
@@ -29,7 +39,7 @@
       </div>
       <div class="score-field" *ngIf="gameHistory">
         <div class="step-score init">
-          <span class="score" *ngFor="let player of players">{{gameService.startedScore}}</span>
+          <span class="score" *ngFor="let player of players">{{startedScore}}</span>
         </div>
         <div class="step-score" *ngFor="let step of gameHistory; let i = index">
           <span class="step">{{ i | stepCounter}}</span>
@@ -39,5 +49,5 @@
       </div>
     </div>
   </div>
-  <app-popup *ngIf="gameService.winner"></app-popup>
+  <app-popup *ngIf="winner"></app-popup>
 </div>
