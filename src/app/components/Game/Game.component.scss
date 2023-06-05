@@ -105,12 +105,12 @@
 
 .throw-input {
   width: 65px;
-  height: 32px;
+  height: 34px;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   padding-left: 5px;
   font-size: 20px;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
 
   &:focus {
     outline: none;
@@ -287,11 +287,14 @@
   }
 }
 
+.is-invalid {
+  border: 1px solid #ff6f5c;
+  background-color: #ff6f5c0c;
+  transition: 0.3s;
+}
+
 .selected {
   background-color: #72e58a47;
   border: 1px solid #72e58a;
-}
-
-.is-invalid {
-  border: 2px solid #e25f4e;
+  transition: 0.3s;
 }
