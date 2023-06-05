@@ -70,13 +70,6 @@ export class GameService {
     } else {
       if (playerScore + throwScore > GAME_301_WIN_VALUE) {
         stepPoints[player.name] = playerScore;
-      } else if (
-        playerScore > GAME_301_START_VALUE &&
-        Object.values(stepPoints).some(
-          (score) => score === playerScore + throwScore
-        )
-      ) {
-        stepPoints[player.name] = GAME_301_START_VALUE;
       } else {
         stepPoints[player.name] = playerScore + throwScore;
         if (stepPoints[player.name] === GAME_301_WIN_VALUE) {
