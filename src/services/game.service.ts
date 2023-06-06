@@ -4,6 +4,7 @@ import { GameHistory } from 'src/interfaces/game-history';
 import { PlayersData } from 'src/interfaces/players-data';
 import { PlayerService } from './players.service';
 import { Mupltiplicator } from 'src/enums/mupltiplicator';
+import { PlayerMove } from 'src/interfaces/player-move';
 
 const GAME_301_START_VALUE = 0;
 const GAME_301_WIN_VALUE = 301;
@@ -26,6 +27,37 @@ export class GameService {
   winner!: string | null;
 
   constructor() {}
+
+  makeMove(moves: PlayerMove[]) {
+    const totalScorePlayers: GameHistory = {};
+    moves.forEach((playerMove) => {
+      const playerName = playerMove.name;
+      let totalScore = 0;
+
+      if (this.gameHistory.length > 0) {
+        totalScorePlayers[playerName] = this.gameHistory.at(-1)![playerName];
+      } else {
+        totalScorePlayers[playerName] = this.startedScore as number;
+      }
+
+      playerMove.throw.forEach((throwValue) => {
+        totalScore += throwValue.points * throwValue.multiply;
+      });
+
+
+      if (this.selectedMode === '501') {
+        totalScorePlayers[playerName] -= totalScore;
+      } else {
+        totalScorePlayers[playerName] += totalScore;
+      }
+
+
+    });
+
+    this.gameHistory.push(totalScorePlayers);
+    console.log(this.gameHistory);
+  }
+  
 
   selectMode(mode: string | null) {
     this.selectedMode = mode;

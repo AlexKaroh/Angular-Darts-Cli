@@ -24,10 +24,10 @@
                 >
                   <input 
                     style="display: none" 
-                    type="radio" 
+                    type="radio"
+                    [name]="multiply + player.name + throwIndex"
                     [formControl]="throw.controls['multiply']"
                     [attr.id]="multiply + player.name + throwIndex" 
-                    [attr.name]="player.name + throwIndex + ' multiply'" 
                     [value]="multiply"
                   >
                   <span>{{ 'X' + multiply }}</span>
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <button class="add-step-button" (click)="getPoints()">Add</button>  
+      <button class="add-step-button" (click)="setPoints()">Add</button>  
     </section>
     <section class="game-score" *ngIf="players">
       <div class="players-names">
@@ -56,4 +56,8 @@
     </section>
   </article>
   <app-popup *ngIf="winner" [winner]="winner"></app-popup>
+  <div class="error-message" *ngIf="players.length < 2">
+    <span>Add at least two players to start game</span>
+    <button class="back-button" routerLink="/options">Back</button>
+  </div>
 </div>

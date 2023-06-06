@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThrowNumber } from 'src/enums/throw-number';
 import { GameService } from 'src/services/game.service';
 import { PlayerService } from 'src/services/players.service';
@@ -9,6 +9,7 @@ import { ThrowNumberType } from 'src/types/throw-number.type';
 import { PlayerMove } from 'src/interfaces/player-move';
 import { PlayersData } from 'src/interfaces/players-data';
 import { PlayerThrow } from 'src/interfaces/player-throw';
+import { GameHistory } from 'src/interfaces/game-history';
 
 @Component({
   selector: 'app-game',
@@ -68,12 +69,12 @@ export class GameComponent implements OnInit {
     }
   }
 
-  getPoints() {
+  setPoints() {
     const moves: PlayerMove[] = [];
     for (let [playerName, formValue] of Object.entries(this.scoreForm.value)) {
       moves.push({name: playerName,throw: formValue as PlayerThrow[]});
     }
-    console.log(moves);
+    this.gameService.makeMove(moves);
     this.scoreForm.markAllAsTouched();
   }
 
