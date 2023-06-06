@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PlayerService } from 'src/services/players.service';
-import { FormControl } from '@angular/forms';
+import { take } from 'rxjs/operators';
 import { GameService } from 'src/services/game.service';
 
 @Component({
@@ -18,25 +18,15 @@ export class GameOptionsComponent {
   }
 
   removePlayer(index: number) {
-    const removedArray = Array.from(this.players);
-    removedArray.splice(index, 1);
-    this.players = removedArray;
+    this.players$.pipe(take(1)).subscribe(players => {
+      const removedArray = [...players];
+      removedArray.splice(index, 1);
+      this.playersService.updatePlayers(removedArray);
+    });
   }
 
-  get players() {
-    return this.playersService.playersData.getValue();
-  }
-
-  set players(vlaue) {
-    this.playersService.playersData.next(vlaue);
-  }
-
-  get gameHistory() {
-    return this.gameService.playersMoves.getValue();
-  }
-
-  set gameHistory(vlaue) {
-    this.gameService.playersMoves.next(vlaue);
+  get players$() {
+    return this.playersService.players$
   }
 
   get selectedMode() {

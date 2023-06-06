@@ -8,20 +8,24 @@
       <label for="name" class="input-label light-font">
         Nickname
       </label>
-      <span class="error-message" *ngIf="isControlInvalid('name')">
+      <span class="error-message" *ngIf="playerDataForm.controls['name'].invalid && playerDataForm.controls['name'].touched">
         {{ getErrorMessage('name') }}
       </span>
     </section>
-    <input type="text" id="name" class="input-form" formControlName="name" [class.is-invalid]="isControlInvalid('name')">
+    <input 
+    type="text" 
+    id="name" 
+    class="input-form" 
+    formControlName="name">
     <section class="form-info">
       <label for="email" class="input-label light-font">
         e-mail
       </label>
-      <span class="error-message" *ngIf="isControlInvalid('email')">
+      <span class="error-message" *ngIf="playerDataForm.controls['email'].invalid && playerDataForm.controls['email'].touched">
         {{ getErrorMessage('email') }}
       </span>
     </section>
-    <input type="text" id="email" class="input-form" formControlName="email" [class.is-invalid]="isControlInvalid('email')">
+    <input type="text" id="email" class="input-form" formControlName="email">
     <button  class="submit-button" type="submit">Add</button>
   </form>
   <button routerLink="/options" class="submit-button" type="submit">Options</button>

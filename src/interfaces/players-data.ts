@@ -1,4 +1,4 @@
 export interface PlayersData { 
-  name: string; 
-  email: string; 
+  name: string,
+  email: string,
 }

@@ -14,20 +14,20 @@
             <span class="player-name light-font">{{ player.name }}</span>
             <div class="throw-table">
               <div class="throw-info" *ngFor="let throw of scoreForm.controls[player.name].controls let throwIndex = index">
-                <input type="text" class="throw-input" [formControl]="throw.controls['points']" [class.is-invalid]="isFormValid(player.name, throwIndex, 'points')">
+                <input type="text" class="throw-input" [formControl]="throw.controls['points']">
                 <label 
                 class="multiply-button" 
-                for="{{multiply + player.name + throwIndex}}" 
-                *ngFor="let multiply of possibleMultiplies" 
+                [attr.for]="multiply + player.name + throwIndex" 
                 [ngClass]="{'rounded': multiply === 3, 'selected': throw.controls['multiply'].value === multiply}"
-                [class.is-invalid]="isFormValid(player.name, throwIndex, 'multiply')"
+                [class.is-invalid]="throw.controls['multiply'].invalid && throw.controls['multiply'].touched"
+                *ngFor="let multiply of possibleMultiplies" 
                 >
                   <input 
                     style="display: none" 
-                    [formControl]="throw.controls['multiply']" 
                     type="radio" 
-                    id="{{multiply + player.name + throwIndex}}" 
-                    name="{{player.name + throwIndex + ' multiply'}}" 
+                    [formControl]="throw.controls['multiply']"
+                    [attr.id]="multiply + player.name + throwIndex" 
+                    [attr.name]="player.name + throwIndex + ' multiply'" 
                     [value]="multiply"
                   >
                   <span>{{ 'X' + multiply }}</span>
