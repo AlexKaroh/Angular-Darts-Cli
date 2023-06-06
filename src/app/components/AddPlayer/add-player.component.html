@@ -1,28 +1,28 @@
-<div class="main">
+<article class="main">
   <app-logo></app-logo>
   <span class="message light-font">
     Add a new player to start the game
   </span>
-  <form class="form-container" [formGroup]="playerDataControl" (submit)="addPlayer()">
-    <div class="form-info">
+  <form class="form-container" [formGroup]="playerDataForm" (submit)="addPlayer()">
+    <section class="form-info">
       <label for="name" class="input-label light-font">
         Nickname
       </label>
       <span class="error-message" *ngIf="isControlInvalid('name')">
         {{ getErrorMessage('name') }}
       </span>
-    </div>
+    </section>
     <input type="text" id="name" class="input-form" formControlName="name" [class.is-invalid]="isControlInvalid('name')">
-    <div class="form-info">
+    <section class="form-info">
       <label for="email" class="input-label light-font">
         e-mail
       </label>
       <span class="error-message" *ngIf="isControlInvalid('email')">
         {{ getErrorMessage('email') }}
       </span>
-    </div>
+    </section>
     <input type="text" id="email" class="input-form" formControlName="email" [class.is-invalid]="isControlInvalid('email')">
     <button  class="submit-button" type="submit">Add</button>
   </form>
   <button routerLink="/options" class="submit-button" type="submit">Options</button>
-</div>
+</article>

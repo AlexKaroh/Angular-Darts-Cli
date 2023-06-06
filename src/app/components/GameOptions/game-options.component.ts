@@ -10,8 +10,6 @@ import { GameService } from 'src/services/game.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameOptionsComponent {
-  findControl = new FormControl('');
-
   constructor(
     private playersService: PlayerService,
     private gameService: GameService
@@ -20,9 +18,9 @@ export class GameOptionsComponent {
   }
 
   removePlayer(index: number) {
-    const updatedArr = Array.from(this.players);
-    updatedArr.splice(index, 1);
-    this.players = updatedArr;
+    const removedArray = Array.from(this.players);
+    removedArray.splice(index, 1);
+    this.players = removedArray;
   }
 
   get players() {

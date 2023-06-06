@@ -1,14 +1,14 @@
 <div class="main">
   <app-logo class="logo"></app-logo>
-  <div class="options-container">
+  <article class="options-container">
     <span class="message light-font">Select players</span>
-    <div class="players-options">
+    <section class="players-options">
       <div class="search-container">
-        <input class="search" type="text" placeholder="Search" [formControl]="findControl!">
+        <input class="search" type="text" placeholder="Search">
         <button class="search-button"><img src="../../../assets/search-icon.svg"></button>
       </div>
       <button class="add-button" routerLink="/addplayer">New Player</button>
-    </div>
+    </section>
     <ul class="players-list" *ngIf="players">
       <li class="player-info"  *ngFor="let player of players; let i = index">
         <span class="palyer-name">{{ player.name }}</span>
@@ -17,11 +17,12 @@
       </li>
     </ul>
     <span class="message light-font">Choose game</span>
-    <div class="game-mode-container">
-      <button class="mode-button" *ngFor="let mode of gameModes" (click)="selectedMode = mode" [ngClass]="selectedMode === mode ? 'active' : 'disabled'">
-        <span class="mode-font">{{mode}}</span>
-      </button>
-    </div>
+    <section class="game-mode-container">
+      <label for={{mode}} *ngFor="let mode of gameModes" class="mode-button" [ngClass]="selectedMode === mode ? 'active' : 'disabled'">
+        {{mode}}
+        <input type="radio" name="mode" style="display: none" id={{mode}} value={{mode}} (click)="selectedMode = mode">
+      </label>
+    </section>
     <button class="start-button" routerLink="/game" [ngClass]="selectedMode ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true"> Start </button>
-  </div>
+  </article>
 </div>

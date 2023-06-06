@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IPlayersData } from 'src/interfaces/players-data';
+import { PlayersData } from 'src/interfaces/players-data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
-  playersData = new BehaviorSubject<IPlayersData[]>([
+  playersData = new BehaviorSubject<PlayersData[]>([
     { name: 'Alex', email: '' },
     { name: 'Andrey', email: '' },
     { name: 'Vlados', email: '' },

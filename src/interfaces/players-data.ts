@@ -1,4 +1,4 @@
-export interface IPlayersData { 
+export interface PlayersData { 
   name: string; 
   email: string; 
 }

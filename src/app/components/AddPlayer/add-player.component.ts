@@ -18,7 +18,7 @@ const MAX_NAME_LENGTH = 20;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddPlayerComponent {
-  playerDataControl: FormGroup = this.fb.group({
+  playerDataForm: FormGroup = this.fb.group({
     name: [
       '',
       [
@@ -33,22 +33,22 @@ export class AddPlayerComponent {
   constructor(private fb: FormBuilder, private playersService: PlayerService) {}
 
   addPlayer() {
-    if (this.playerDataControl.invalid) {
-      this.playerDataControl.markAllAsTouched();
+    if (this.playerDataForm.invalid) {
+      this.playerDataForm.markAllAsTouched();
       return;
     } else {
       const newPlayers = Array.from(this.players);
       newPlayers.push({
-        name: this.playerDataControl.get('name')?.value,
-        email: this.playerDataControl.get('email')?.value,
+        name: this.playerDataForm.get('name')?.value,
+        email: this.playerDataForm.get('email')?.value,
       });
       this.players = newPlayers;
-      this.playerDataControl.reset();
+      this.playerDataForm.reset();
     }
   }
 
   getErrorMessage(controlName: string): string {
-    const control = this.playerDataControl.controls[controlName];
+    const control = this.playerDataForm.controls[controlName];
     if (control.errors) {
       if (control.errors['required']) {
         return 'This field is required';
@@ -64,7 +64,7 @@ export class AddPlayerComponent {
   }
 
   isControlInvalid(controlName: string): boolean {
-    const control = this.playerDataControl.controls[controlName];
+    const control = this.playerDataForm.controls[controlName];
     return control.invalid && control.touched;
   }
 

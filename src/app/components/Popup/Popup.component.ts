@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { GameService } from 'src/services/game.service';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-popup',
@@ -8,12 +7,7 @@ import { GameService } from 'src/services/game.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupComponent {
+  @Input() winner?: string;
+  constructor() { }
 
-  constructor( private gameService: GameService) { }
-
-  get winner() {
-    return this.gameService.winner;
-  }
-
-  // TODO: MAKE THIS COMPONENT DUMB
 }
