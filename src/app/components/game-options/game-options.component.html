@@ -18,7 +18,8 @@
     </ul>
     <span class="message light-font">Choose game</span>
     <section class="game-mode-container">
-      <label for={{mode}} *ngFor="let mode of gameModes" class="mode-button" [ngClass]="selectedMode === mode ? 'active' : 'disabled'">
+      <label 
+      for={{mode}} *ngFor="let mode of gameModes" class="mode-button" [ngClass]="selectedMode === mode ? 'active' : 'disabled'">
         {{mode}}
         <input type="radio" name="mode" style="display: none" id={{mode}} value={{mode}} (click)="selectedMode = mode">
       </label>
