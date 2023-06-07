@@ -7,7 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { PlayersData } from 'src/interfaces/players-data';
+import { Player } from 'src/interfaces/players-data';
 import { PlayerService } from 'src/services/players.service';
 
 const MAX_NAME_LENGTH = 20;
@@ -33,6 +33,10 @@ export class AddPlayerComponent {
 
   constructor(private fb: FormBuilder, private playersService: PlayerService) {}
 
+  get players$() {
+    return this.playersService.players$;
+  }
+
   addPlayer() {
     if (this.playerDataForm.invalid) {
       this.playerDataForm.markAllAsTouched();
@@ -40,8 +44,8 @@ export class AddPlayerComponent {
     } else {
       const name = this.playerDataForm.get('name')?.value;
       const email = this.playerDataForm.get('email')?.value;
-      const newPlayer: PlayersData = { name, email };
-      
+      const newPlayer: Player = { name, email };
+
       this.playersService.addPlayer(newPlayer);
       this.playerDataForm.reset();
     }
@@ -65,15 +69,10 @@ export class AddPlayerComponent {
 
   private validateDuplicates(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      if (this.playersService.hasPlayer(value)) {
+      if (this.playersService.hasPlayer(control.value)) {
         return { duplicate: 'This player name is already taken' };
       }
       return null;
     };
-  }
-
-  get players$() {
-    return this.playersService.players$
   }
 }

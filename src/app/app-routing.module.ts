@@ -6,13 +6,13 @@ import { GameOptionsComponent } from './game-options/game-options.component';
 
 const routes: Routes = [
   { path: 'addplayer', component: AddPlayerComponent },
-  { path: 'game', component: GameComponent},
-  { path: 'options', component: GameOptionsComponent},
-  { path: '', redirectTo: '/options', pathMatch: 'full' }
+  { path: 'game', component: GameComponent },
+  { path: 'options', component: GameOptionsComponent },
+  { path: '', redirectTo: '/options', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { PlayersData } from 'src/interfaces/players-data';
+import { Player } from 'src/interfaces/players-data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
 
-  _players: PlayersData[] = [
+  _players: Player[] = [
     { name: 'Alex', email: '' },
     { name: 'Andrey', email: '' },
     { name: 'Vlados', email: '' },
   ]
 
-  private playersData = new BehaviorSubject<PlayersData[]>(this._players);
+  private playersData = new BehaviorSubject<Player[]>(this._players);
 
   constructor() {}
 
@@ -21,18 +21,17 @@ export class PlayerService {
     return this.playersData.asObservable();
   }
 
-  public addPlayer(player: PlayersData) {
+  public addPlayer(player: Player) {
     const currentPlayers = this.playersData.value;
     const newPlayers = [...currentPlayers, player];
-    this.playersData.next(newPlayers);
+    this.updatePlayers(newPlayers);
   }
 
   public hasPlayer(name: string): boolean {
-    const players = this.playersData.value;
-    return players.some((player) => player.name === name);
+    return this.playersData.value.some((player) => player.name === name);
   }
 
-  public updatePlayers(players: PlayersData[]) {
+  public updatePlayers(players: Player[]) {
     this.playersData.next(players);
   }
 }

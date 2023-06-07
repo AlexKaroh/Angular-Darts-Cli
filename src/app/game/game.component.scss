@@ -234,59 +234,6 @@
   position: absolute;
 }
 
-.error-message {
-  padding-top: 85px;
-  height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 30px;
-  font-variant: all-petite-caps;
-  color: #e25f4e;
-}
-
-.back-button {
-  cursor: pointer;
-  margin: 30px auto 0px;
-  width: 500px;
-  height: 50px;
-  position: relative;
-  background-color: #fff0;
-  color: #fff;
-  font-size: 22px;
-  border: 1px solid #ffffff50;
-  border-radius: 5px;
-  transition: .3s;
-  
-  &:hover {
-    transform: scale(1.00);
-    transition: .3s;  
-  }
-
-  &::after {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0;
-    height: 100%;
-    background-color: #72e58a47;
-    border: 1px solid #72e58a;
-    border-radius: 5px;
-    transition: width .5s, opacity .4s;
-    opacity: 0;
-  }
-
-  &:hover::after {
-    width: 100%;
-    opacity: 1;
-  }
-}
-
 .ng-touched.ng-invalid, .is-invalid {
   border: 1px solid #ff6f5c;
   background-color: #ff6f5c0c;

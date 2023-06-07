@@ -17,16 +17,8 @@ export class GameOptionsComponent {
     this.selectedMode = null;
   }
 
-  removePlayer(index: number) {
-    this.players$.pipe(take(1)).subscribe(players => {
-      const removedArray = [...players];
-      removedArray.splice(index, 1);
-      this.playersService.updatePlayers(removedArray);
-    });
-  }
-
   get players$() {
-    return this.playersService.players$
+    return this.playersService.players$;
   }
 
   get selectedMode() {
@@ -39,5 +31,13 @@ export class GameOptionsComponent {
 
   get gameModes() {
     return this.gameService.gameMode;
+  }
+
+  removePlayer(index: number) {
+    this.players$.pipe(take(1)).subscribe((players) => {
+      const removedArray = [...players];
+      removedArray.splice(index, 1);
+      this.playersService.updatePlayers(removedArray);
+    });
   }
 }

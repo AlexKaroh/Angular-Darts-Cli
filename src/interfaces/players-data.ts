@@ -1,4 +1,4 @@
-export interface PlayersData { 
+export interface Player { 
   name: string,
   email: string,
 }

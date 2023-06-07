@@ -4,12 +4,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class HeaderComponent {
   links = [
     { name: 'Add player', routerLink: '/addplayer' },
-    { name: 'Options', routerLink: '/options' }
+    { name: 'Options', routerLink: '/options' },
   ];
 }
