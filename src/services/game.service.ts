@@ -37,7 +37,7 @@ export class GameService {
     this.playersMoves.next(vlaue);
   }
 
-  makeMove(moves: PlayerMove[]) {
+  public makeMove(moves: PlayerMove[]) {
     const totalScorePlayers: GameHistory = {};
     moves.forEach((playerMove) => {
       const playerName = playerMove.name;
@@ -80,7 +80,7 @@ export class GameService {
     this.gameHistory.push(totalScorePlayers);
   }
 
-  checkToZeroPoints(totalScorePlayers: GameHistory, currentPlayerName: string) {
+  private checkToZeroPoints(totalScorePlayers: GameHistory, currentPlayerName: string) {
     if (this.selectedMode === '301') {
       for (const playerName of Object.keys(totalScorePlayers)) {
         if (
@@ -93,7 +93,7 @@ export class GameService {
     }
   }
 
-  checkWinnerWhenThrow(totalScorePlayers: GameHistory, playerName: string) {
+  private checkWinnerWhenThrow(totalScorePlayers: GameHistory, playerName: string) {
     if (
       (totalScorePlayers[playerName] === GAME_301_WIN_VALUE &&
         this.selectedMode === '301') ||
@@ -104,7 +104,7 @@ export class GameService {
     }
   }
 
-  checkWinnerWhenLimitOfThrows(totalScorePlayers: GameHistory) {
+  private checkWinnerWhenLimitOfThrows(totalScorePlayers: GameHistory) {
     if (this.selectedMode === '501') {
       if (
         this.gameHistory.length === FIRST_LIMIT_OF_MOVES_TO_CHECK_WINNER ||
@@ -136,7 +136,7 @@ export class GameService {
     }
   }
 
-  selectMode(mode: string | null) {
+  public selectMode(mode: string | null) {
     this.selectedMode = mode;
     if (mode) {
       if (mode === '501') {
@@ -147,12 +147,12 @@ export class GameService {
     }
   }
 
-  restartGame() {
+  public restartGame() {
     this.gameHistory = [];
     this.winner = null;
   }
 
-  setWinner(player: string | null) {
+  public setWinner(player: string | null) {
     this.winner = player;
   }
 }
