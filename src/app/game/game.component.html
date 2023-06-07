@@ -1,60 +1,58 @@
-<div class="main">
-  <article class="game" *ngIf="(players$ | async)!.length >= 2 && selectedMode">
-    <section class="game-header">
-      <app-logo class="logo"></app-logo>
-      <button class="new-game-button" routerLink="/options">New game</button>
-    </section>
-    <section class="game-throws">
-      <div class="throw-container">
-        <div class="throw-column">
-          <span class="throw-number light-font" *ngFor="let throw of throwsNumber">Dart {{throw}}</span>
-        </div>
-        <div class="players-throws" *ngIf="players$ | async">
-          <div class="player-table" *ngFor="let player of players$ | async">
-            <span class="player-name light-font">{{ player.name }}</span>
-            <div class="throw-table">
-              <div class="throw-info" *ngFor="let throw of scoreForm.controls[player.name].controls let throwIndex = index">
-                <input type="text" class="throw-input" [formControl]="throw.controls['points']">
-                <label 
-                class="multiply-button" 
-                [attr.for]="multiply + player.name + throwIndex" 
-                [ngClass]="{'rounded': multiply === 3, 'selected': throw.controls['multiply'].value === multiply}"
-                [class.is-invalid]="throw.controls['multiply'].invalid && throw.controls['multiply'].touched"
-                *ngFor="let multiply of possibleMultiplies" 
+<article class="game" *ngIf="(players$ | async)!.length >= 2 && selectedMode">
+  <section class="game-header">
+    <app-logo class="logo"></app-logo>
+    <a class="new-game-link" routerLink="/options">New game</a>
+  </section>
+  <section class="game-throws">
+    <div class="throw-container">
+      <div class="throw-column">
+        <span class="throw-number light-font" *ngFor="let throw of throwsNumber">Dart {{throw}}</span>
+      </div>
+      <div class="players-throws" *ngIf="players$ | async as players">
+        <div class="player-table" *ngFor="let player of players">
+          <span class="player-name light-font">{{ player.name }}</span>
+          <div class="throw-table">
+            <div class="throw-info" *ngFor="let throw of scoreForm.controls[player.name].controls let throwIndex = index">
+              <input type="text" class="throw-input" [formControl]="throw.controls['points']">
+              <label 
+              class="multiply-button" 
+              [attr.for]="multiply + player.name + throwIndex" 
+              [ngClass]="{'rounded': multiply === 3, 'selected': throw.controls['multiply'].value === multiply}"
+              [class.is-invalid]="throw.controls['multiply'].invalid && throw.controls['multiply'].touched"
+              *ngFor="let multiply of possibleMultiplies" 
+              >
+                <input 
+                  style="display: none" 
+                  type="radio"
+                  [name]="player.name + throwIndex"
+                  [formControl]="throw.controls['multiply']"
+                  [attr.id]="multiply + player.name + throwIndex" 
+                  [value]="multiply"
                 >
-                  <input 
-                    style="display: none" 
-                    type="radio"
-                    [name]="player.name + throwIndex"
-                    [formControl]="throw.controls['multiply']"
-                    [attr.id]="multiply + player.name + throwIndex" 
-                    [value]="multiply"
-                  >
-                  <span>{{ 'X' + multiply }}</span>
-                </label>
-              </div>
+                <span>{{ 'X' + multiply }}</span>
+              </label>
             </div>
           </div>
         </div>
       </div>
-      <button class="add-step-button" (click)="setPoints()">Add</button>  
-    </section>
-    <section class="game-score" *ngIf="players$ | async">
-      <div class="players-names">
-        <span class="name" *ngFor="let player of players$ | async">{{ player.name }}</span>
+    </div>
+    <button class="add-step-button" (click)="makeMove()">Add</button>  
+  </section>
+  <section class="game-score" *ngIf="players$ | async as players">
+    <div class="players-names">
+      <span class="name" *ngFor="let player of players">{{ player.name }}</span>
+    </div>
+    <div class="score-field" *ngIf="(gameHistory$ | async) as history">
+      <div class="step-score init">
+        <span class="score" *ngFor="let player of players">{{startedScore}}</span>
       </div>
-      <div class="score-field" *ngIf="gameHistory">
-        <div class="step-score init">
-          <span class="score" *ngFor="let player of players$ | async">{{startedScore}}</span>
-        </div>
-        <div class="step-score" *ngFor="let step of gameHistory; let i = index">
-          <span class="step">{{ i | stepCounter}}</span>
-          <span class="score" *ngFor="let player of players$ | async">{{ step[player.name] }}</span>
-          <img class="info" src="../../../assets/info-icon.svg" />
-        </div>
+      <div class="step-score" *ngFor="let step of history; let i = index">
+        <span class="step">{{ i | stepCounter}}</span>
+        <span class="score" *ngFor="let player of players">{{ step[player.name] }}</span>
+        <img class="info" src="../../../assets/info-icon.svg" />
       </div>
-    </section>
-  </article>
-  <app-popup *ngIf="winner" [winner]="winner"></app-popup>
-  <app-error-message *ngIf="(players$ | async)!.length < 2 || !selectedMode"></app-error-message>
-</div>
+    </div>
+  </section>
+</article>
+<app-popup *ngIf="winner" [winner]="winner"></app-popup>
+<app-error-message *ngIf="(players$ | async)!.length < 2 || !selectedMode"></app-error-message>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { HeaderComponent } from './header/app.component';
+import { HeaderComponent } from './app.component';
 import { AddPlayerComponent } from './add-player/add-player.component';
 import { GameComponent } from './game/game.component';
 import { LogoComponent } from './logo/logo.component';

@@ -6,12 +6,16 @@
   border-bottom: 1px solid #ffffff50;
 }
 
-.new-game-button {
+.new-game-link {
   margin-left: 50%;
   cursor: pointer;
   position: relative;
   width: 305px;
   height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
   background-color: #fff0;
   color: #fff;
   font-size: 22px;

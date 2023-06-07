@@ -7,13 +7,14 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Player } from 'src/interfaces/players-data';
 import { PlayerService } from 'src/services/players.service';
 
 const MAX_NAME_LENGTH = 20;
 
 @Component({
-  selector: 'app-addplayer',
+  selector: 'app-add-player',
   templateUrl: './add-player.component.html',
   styleUrls: ['./add-player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +32,11 @@ export class AddPlayerComponent {
     email: ['', [Validators.email]],
   });
 
-  constructor(private fb: FormBuilder, private playersService: PlayerService) {}
+  constructor(
+    private fb: FormBuilder,
+    private playersService: PlayerService,
+    private router: Router
+  ) {}
 
   get players$() {
     return this.playersService.players$;
@@ -40,14 +45,15 @@ export class AddPlayerComponent {
   public addPlayer() {
     if (this.playerDataForm.invalid) {
       this.playerDataForm.markAllAsTouched();
-    } else {
-      const name = this.playerDataForm.get('name')?.value;
-      const email = this.playerDataForm.get('email')?.value;
-      const newPlayer: Player = { name, email };
-
-      this.playersService.addPlayer(newPlayer);
-      this.playerDataForm.reset();
+      return;
     }
+    const name = this.playerDataForm.get('name')?.value;
+    const email = this.playerDataForm.get('email')?.value;
+    const newPlayer: Player = { name, email };
+
+    this.playersService.addPlayer(newPlayer);
+    this.playerDataForm.reset();
+    this.router.navigate(['/options']);
   }
 
   public getErrorMessage(controlName: string): string {

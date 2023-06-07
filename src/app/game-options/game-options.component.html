@@ -1,29 +1,27 @@
-<div class="main">
-  <app-logo class="logo"></app-logo>
-  <article class="options-container">
-    <span class="message light-font">Select players</span>
-    <section class="players-options">
-      <div class="search-container">
-        <input class="search" type="text" placeholder="Search">
-        <button class="search-button"><img src="../../../assets/search-icon.svg"></button>
-      </div>
-      <button class="add-button" routerLink="/addplayer">New Player</button>
-    </section>
-    <ul class="players-list" *ngIf="players$ | async">
-      <li class="player-info"  *ngFor="let player of players$ | async; let i = index">
-        <span class="palyer-name">{{ player.name }}</span>
-        <span class="palyer-email">{{ player.email }}</span>
-        <button class="cross-button" (click)="removePlayer(i)">✖</button>
-      </li>
-    </ul>
-    <span class="message light-font">Choose game</span>
-    <section class="game-mode-container">
-      <label 
-      [attr.for]="mode" *ngFor="let mode of gameModes" class="mode-button" [ngClass]="selectedMode === mode ? 'active' : 'disabled'">
-        {{mode}}
-        <input type="radio" name="mode" style="display: none" [attr.id]="mode" [attr.value]="mode" (click)="selectedMode = mode">
-      </label>
-    </section>
-    <button class="start-button" routerLink="/game" [ngClass]="selectedMode ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true"> Start </button>
-  </article>
-</div>
+<app-logo class="logo"></app-logo>
+<article class="options-container">
+  <span class="message light-font">Select players</span>
+  <section class="players-options">
+    <div class="search-container">
+      <input class="search" type="text" placeholder="Search">
+      <button class="search-button"><img src="../../../assets/search-icon.svg"></button>
+    </div>
+    <a class="add-link" routerLink="/addplayer">New Player</a>
+  </section>
+  <ul class="players-list" *ngIf="players$ | async as players">
+    <li class="player-info"  *ngFor="let player of players; let i = index">
+      <span class="palyer-name">{{ player.name }}</span>
+      <span class="palyer-email">{{ player.email }}</span>
+      <button class="cross-button" (click)="removePlayer(i)">✖</button>
+    </li>
+  </ul>
+  <span class="message light-font">Choose game</span>
+  <section class="game-mode-container">
+    <label 
+    [attr.for]="mode" *ngFor="let mode of gameModes" class="mode-button" [ngClass]="selectedMode === mode ? 'active' : 'disabled'">
+      {{mode}}
+      <input type="radio" name="mode" style="display: none" [attr.id]="mode" [attr.value]="mode" (click)="selectedMode = mode">
+    </label>
+  </section>
+  <button class="start-link" routerLink="/game" [ngClass]="selectedMode ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true"> Start </button>
+</article>

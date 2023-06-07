@@ -21,13 +21,17 @@ const DEAD_END_VALUE = 1;
   providedIn: 'root',
 })
 export class GameService {
-  playersMoves = new BehaviorSubject<GameHistory[]>([]);
+  private playersMoves = new BehaviorSubject<GameHistory[]>([]);
   gameMode = ['501', '301'];
   selectedMode: string | null = null;
   winner: string | null = null;
   startedScore: number | null = null;
 
   constructor() {}
+
+  get gameHistory$() {
+    return this.playersMoves.asObservable();
+  }
 
   get gameHistory() {
     return this.playersMoves.getValue();
@@ -39,73 +43,41 @@ export class GameService {
 
   public makeMove(moves: PlayerMove[]) {
     const totalScorePlayers: GameHistory = {};
+    let lastMultiplicatorIsDouble = false;
+    let lastValue: number;
+
     moves.forEach((playerMove) => {
       const playerName = playerMove.name;
       let throwScore = START_THROW_VALUE;
 
-      if (this.gameHistory.length > GAME_HISTORY_STARTED_VALUE) {
-        totalScorePlayers[playerName] = this.gameHistory.at(-1)![playerName];
-      } else {
-        totalScorePlayers[playerName] = this.startedScore as number;
-      }
+      lastValue = this.gameHistory.length > GAME_HISTORY_STARTED_VALUE
+        ? (totalScorePlayers[playerName] =
+            this.gameHistory.at(-1)![playerName])
+        : (totalScorePlayers[playerName] = this.startedScore as number);
 
       playerMove.throw.forEach((throwValue) => {
         throwScore = throwValue.points * throwValue.multiply;
-
         if (this.selectedMode === '501') {
-          if (
-            totalScorePlayers[playerName] < throwScore ||
-            totalScorePlayers[playerName] - throwScore === DEAD_END_VALUE ||
-            (totalScorePlayers[playerName] - throwScore ===
-              GAME_501_WIN_VALUE &&
-              throwValue.multiply !== Mupltiplicator.X2)
-          ) {
-            totalScorePlayers[playerName] = totalScorePlayers[playerName];
-          } else {
-            totalScorePlayers[playerName] -= throwScore;
-          }
+          totalScorePlayers[playerName] -= throwScore
         } else {
-          if (totalScorePlayers[playerName] + throwScore > GAME_301_WIN_VALUE) {
-            totalScorePlayers[playerName] = totalScorePlayers[playerName];
-          } else {
-            totalScorePlayers[playerName] += throwScore;
-          }
+          totalScorePlayers[playerName] += throwScore
         }
-        this.checkWinnerWhenThrow(totalScorePlayers, playerName);
-        this.checkToZeroPoints(totalScorePlayers, playerName);
       });
     });
-
-    this.checkWinnerWhenLimitOfThrows(totalScorePlayers);
+    for (const playerName of Object.keys(totalScorePlayers)) {
+      const playerScore = totalScorePlayers[playerName];
+    
+      if (playerScore < 0 || playerScore === DEAD_END_VALUE || (playerScore === GAME_501_WIN_VALUE && throwValue ???)) {
+        totalScorePlayers[playerName] = lastValue!;
+      }
+    }
+    this.selectedMode === '501'? this.checkWinnerWhenLimitOfThrows(totalScorePlayers): console.log(1);
     this.gameHistory.push(totalScorePlayers);
   }
 
-  private checkToZeroPoints(totalScorePlayers: GameHistory, currentPlayerName: string) {
-    if (this.selectedMode === '301') {
-      for (const playerName of Object.keys(totalScorePlayers)) {
-        if (
-          playerName !== currentPlayerName &&
-          totalScorePlayers[playerName] === totalScorePlayers[currentPlayerName]
-        ) {
-          totalScorePlayers[currentPlayerName] = GAME_301_START_VALUE;
-        }
-      }
-    }
-  }
 
-  private checkWinnerWhenThrow(totalScorePlayers: GameHistory, playerName: string) {
-    if (
-      (totalScorePlayers[playerName] === GAME_301_WIN_VALUE &&
-        this.selectedMode === '301') ||
-      (totalScorePlayers[playerName] === GAME_501_WIN_VALUE &&
-        this.selectedMode === '501')
-    ) {
-      this.setWinner(playerName);
-    }
-  }
 
   private checkWinnerWhenLimitOfThrows(totalScorePlayers: GameHistory) {
-    if (this.selectedMode === '501') {
       if (
         this.gameHistory.length === FIRST_LIMIT_OF_MOVES_TO_CHECK_WINNER ||
         this.gameHistory.length === SECOND_LIMIT_OF_MOVES_TO_CHECK_WINNER
@@ -133,7 +105,6 @@ export class GameService {
           this.setWinner('DRAW!');
         }
       }
-    }
   }
 
   public selectMode(mode: string | null) {

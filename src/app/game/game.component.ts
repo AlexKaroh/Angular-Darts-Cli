@@ -41,8 +41,8 @@ export class GameComponent implements OnInit {
     return this.playersService.players$;
   }
 
-  get gameHistory() {
-    return this.gameService.playersMoves.getValue();
+  get gameHistory$() {
+    return this.gameService.gameHistory$;
   }
 
   get winner() {
@@ -81,18 +81,16 @@ export class GameComponent implements OnInit {
     });
   }
 
-  public setPoints() {
-    if (this.scoreForm.invalid) {
-      this.scoreForm.markAllAsTouched();
-    } else {
-      const moves: PlayerMove[] = [];
-      for (let [playerName, formValue] of Object.entries(
-        this.scoreForm.value
-      )) {
-        moves.push({ name: playerName, throw: formValue as PlayerThrow[] });
-      }
-      this.gameService.makeMove(moves);
-      this.scoreForm.reset();
+  public makeMove() {
+    // if (this.scoreForm.invalid) {
+    //   this.scoreForm.markAllAsTouched();
+    //   return;
+    // }
+    const moves: PlayerMove[] = [];
+    for (let [playerName, formValue] of Object.entries(this.scoreForm.value)) {
+      moves.push({ name: playerName, throw: formValue as PlayerThrow[] });
     }
+    this.gameService.makeMove(moves);
+    this.scoreForm.reset();
   }
 }

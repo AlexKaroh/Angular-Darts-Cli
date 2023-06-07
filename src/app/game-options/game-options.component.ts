@@ -4,7 +4,7 @@ import { take } from 'rxjs/operators';
 import { GameService } from 'src/services/game.service';
 
 @Component({
-  selector: 'app-gameoptions',
+  selector: 'app-game-options',
   templateUrl: './game-options.component.html',
   styleUrls: ['./game-options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,10 +34,6 @@ export class GameOptionsComponent {
   }
 
   public removePlayer(index: number) {
-    this.players$.pipe(take(1)).subscribe((players) => {
-      const removedArray = [...players];
-      removedArray.splice(index, 1);
-      this.playersService.updatePlayers(removedArray);
-    });
+    this.playersService.removePlayer(index);
   }
 }
