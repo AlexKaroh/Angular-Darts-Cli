@@ -40,7 +40,6 @@ export class AddPlayerComponent {
   addPlayer() {
     if (this.playerDataForm.invalid) {
       this.playerDataForm.markAllAsTouched();
-      return;
     } else {
       const name = this.playerDataForm.get('name')?.value;
       const email = this.playerDataForm.get('email')?.value;

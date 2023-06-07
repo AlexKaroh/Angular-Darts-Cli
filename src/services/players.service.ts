@@ -6,12 +6,11 @@ import { Player } from 'src/interfaces/players-data';
   providedIn: 'root',
 })
 export class PlayerService {
-
   _players: Player[] = [
     { name: 'Alex', email: '' },
     { name: 'Andrey', email: '' },
     { name: 'Vlados', email: '' },
-  ]
+  ];
 
   private playersData = new BehaviorSubject<Player[]>(this._players);
 

@@ -10,12 +10,12 @@ const GAME_301_WIN_VALUE = 301;
 const GAME_501_START_VALUE = 501;
 const GAME_501_WIN_VALUE = 0;
 
-const FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER = 19;
-const SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER = 29;
+const FIRST_LIMIT_OF_MOVES_TO_CHECK_WINNER = 19;
+const SECOND_LIMIT_OF_MOVES_TO_CHECK_WINNER = 29;
 
 const START_THROW_VALUE = 0;
+const GAME_HISTORY_STARTED_VALUE = 0;
 const DEAD_END_VALUE = 1;
-
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +25,7 @@ export class GameService {
   gameMode = ['501', '301'];
   selectedMode: string | null = null;
   winner: string | null = null;
-  startedScore: number| null = null;
-
+  startedScore: number | null = null;
 
   constructor() {}
 
@@ -44,7 +43,7 @@ export class GameService {
       const playerName = playerMove.name;
       let throwScore = START_THROW_VALUE;
 
-      if (this.gameHistory.length > 0) {
+      if (this.gameHistory.length > GAME_HISTORY_STARTED_VALUE) {
         totalScorePlayers[playerName] = this.gameHistory.at(-1)![playerName];
       } else {
         totalScorePlayers[playerName] = this.startedScore as number;
@@ -73,15 +72,28 @@ export class GameService {
           }
         }
         this.checkWinnerWhenThrow(totalScorePlayers, playerName);
+        this.checkToZeroPoints(totalScorePlayers, playerName);
       });
-
     });
 
     this.checkWinnerWhenLimitOfThrows(totalScorePlayers);
     this.gameHistory.push(totalScorePlayers);
   }
 
-  checkWinnerWhenThrow (totalScorePlayers: GameHistory, playerName: string) {
+  checkToZeroPoints(totalScorePlayers: GameHistory, currentPlayerName: string) {
+    if (this.selectedMode === '301') {
+      for (const playerName of Object.keys(totalScorePlayers)) {
+        if (
+          playerName !== currentPlayerName &&
+          totalScorePlayers[playerName] === totalScorePlayers[currentPlayerName]
+        ) {
+          totalScorePlayers[currentPlayerName] = GAME_301_START_VALUE;
+        }
+      }
+    }
+  }
+
+  checkWinnerWhenThrow(totalScorePlayers: GameHistory, playerName: string) {
     if (
       (totalScorePlayers[playerName] === GAME_301_WIN_VALUE &&
         this.selectedMode === '301') ||
@@ -95,8 +107,8 @@ export class GameService {
   checkWinnerWhenLimitOfThrows(totalScorePlayers: GameHistory) {
     if (this.selectedMode === '501') {
       if (
-        this.gameHistory.length === FIRST_COUNT_OF_MOVES_TO_CHECK_WINNER ||
-        this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER
+        this.gameHistory.length === FIRST_LIMIT_OF_MOVES_TO_CHECK_WINNER ||
+        this.gameHistory.length === SECOND_LIMIT_OF_MOVES_TO_CHECK_WINNER
       ) {
         let winner: string | null = null;
         let minScore: number = Number.MAX_VALUE;
@@ -115,7 +127,7 @@ export class GameService {
         if (winner) {
           this.setWinner(winner);
         } else if (
-          this.gameHistory.length === SECOND_COUNT_OF_MOVES_TO_CHECK_WINNER &&
+          this.gameHistory.length === SECOND_LIMIT_OF_MOVES_TO_CHECK_WINNER &&
           !winner
         ) {
           this.setWinner('DRAW!');

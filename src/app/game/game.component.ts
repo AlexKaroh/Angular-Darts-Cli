@@ -82,12 +82,17 @@ export class GameComponent implements OnInit {
   }
 
   setPoints() {
-    const moves: PlayerMove[] = [];
-    for (let [playerName, formValue] of Object.entries(this.scoreForm.value)) {
-      moves.push({ name: playerName, throw: formValue as PlayerThrow[] });
+    if (this.scoreForm.invalid) {
+      this.scoreForm.markAllAsTouched();
+    } else {
+      const moves: PlayerMove[] = [];
+      for (let [playerName, formValue] of Object.entries(
+        this.scoreForm.value
+      )) {
+        moves.push({ name: playerName, throw: formValue as PlayerThrow[] });
+      }
+      this.gameService.makeMove(moves);
+      this.scoreForm.reset();
     }
-    this.gameService.makeMove(moves);
-    this.scoreForm.markAllAsTouched();
-    this.scoreForm.reset();
   }
 }
