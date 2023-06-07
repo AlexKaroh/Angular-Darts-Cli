@@ -21,8 +21,8 @@ export class PlayerService {
   }
 
   public addPlayer(player: Player) {
-    const currentPlayers = this.playersData.value;
-    const newPlayers = [...currentPlayers, player];
+    const newPlayers = this.playersData.value.slice();
+    newPlayers.push(player);
     this.updatePlayers(newPlayers);
   }
 
