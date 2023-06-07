@@ -33,7 +33,7 @@ export class GameOptionsComponent {
     return this.gameService.gameMode;
   }
 
-  removePlayer(index: number) {
+  public removePlayer(index: number) {
     this.players$.pipe(take(1)).subscribe((players) => {
       const removedArray = [...players];
       removedArray.splice(index, 1);

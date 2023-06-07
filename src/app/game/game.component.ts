@@ -81,7 +81,7 @@ export class GameComponent implements OnInit {
     });
   }
 
-  setPoints() {
+  public setPoints() {
     if (this.scoreForm.invalid) {
       this.scoreForm.markAllAsTouched();
     } else {

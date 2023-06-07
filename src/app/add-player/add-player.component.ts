@@ -37,7 +37,7 @@ export class AddPlayerComponent {
     return this.playersService.players$;
   }
 
-  addPlayer() {
+  public addPlayer() {
     if (this.playerDataForm.invalid) {
       this.playerDataForm.markAllAsTouched();
     } else {
@@ -50,7 +50,7 @@ export class AddPlayerComponent {
     }
   }
 
-  getErrorMessage(controlName: string): string {
+  public getErrorMessage(controlName: string): string {
     const control = this.playerDataForm.controls[controlName];
     if (control.errors) {
       if (control.errors['required']) {
