@@ -36,6 +36,7 @@ export class PlayerService {
     return this.playersData.value.some((player) => player.name === name);
   }
 
+
   public updatePlayers(players: Player[]) {
     this.playersData.next(players);
   }

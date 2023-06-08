@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Mupltiplicator } from 'src/enums/mupltiplicator';
 import { GameHistory } from 'src/interfaces/game-history';
 import { PlayerMove } from 'src/interfaces/player-move';
+import { Player } from 'src/interfaces/players-data';
 
 const GAME_301_START_VALUE = 0;
 const GAME_301_WIN_VALUE = 301;
@@ -22,13 +24,19 @@ const DEAD_END_VALUE = 1;
 })
 export class GameService {
   private playersMoves = new BehaviorSubject<GameHistory[]>([]);
-  gameMode = ['501', '301'];
   winners: string[] = [];
   isDraw = false;
-  selectedMode: string | null = null;
+  selectedMode: string;
   startedScore: number | null = null;
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {
+    this.selectedMode = this.route.snapshot.params['type'];
+    this.setStartedValues(this.selectedMode);
+  }
+
+  get players(): Player[] {
+    return this.route.snapshot.data['players'];
+  }
 
   get gameHistory$() {
     return this.playersMoves.asObservable();
@@ -153,20 +161,11 @@ export class GameService {
     }
   }
 
-  public selectMode(mode: string | null) {
-    this.selectedMode = mode;
-    if (mode) {
-      if (mode === '501') {
-        this.startedScore = GAME_501_START_VALUE;
-      } else {
-        this.startedScore = GAME_301_START_VALUE;
-      }
+  private setStartedValues(mode: string) {
+    if (mode === '501') {
+      this.startedScore = GAME_501_START_VALUE;
+    } else {
+      this.startedScore = GAME_301_START_VALUE;
     }
-  }
-
-  public restartGame() {
-    this.gameHistory = [];
-    this.winners = [];
-    this.isDraw = false;
   }
 }

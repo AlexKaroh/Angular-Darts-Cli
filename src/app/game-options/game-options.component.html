@@ -23,5 +23,5 @@
       <input type="radio" name="mode" style="display: none" [attr.id]="mode" [attr.value]="mode" (click)="selectedMode = mode">
     </label>
   </section>
-  <button class="start-link" routerLink="/game" [ngClass]="selectedMode ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true"> Start </button>
+  <button class="start-link" [routerLink]="['/game', selectedMode]" [ngClass]="selectedMode ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true"> Start </button>
 </article>

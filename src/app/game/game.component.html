@@ -1,4 +1,4 @@
-<article class="game" *ngIf="(players$ | async)!.length >= 2 && selectedMode">
+<article class="game">
   <section class="game-header">
     <app-logo class="logo"></app-logo>
     <a class="new-game-link" routerLink="/options">New game</a>
@@ -8,7 +8,7 @@
       <div class="throw-column">
         <span class="throw-number light-font" *ngFor="let throw of throwsNumber">Dart {{throw}}</span>
       </div>
-      <div class="players-throws" *ngIf="players$ | async as players">
+      <div class="players-throws" *ngIf="players">
         <div class="player-table" *ngFor="let player of players">
           <span class="player-name light-font">{{ player.name }}</span>
           <div class="throw-table">
@@ -38,7 +38,7 @@
     </div>
     <button class="add-step-button" (click)="makeMove()">Add</button>  
   </section>
-  <section class="game-score" *ngIf="players$ | async as players">
+  <section class="game-score" *ngIf="players">
     <div class="players-names">
       <span class="name" *ngFor="let player of players">{{ player.name }}</span>
     </div>
@@ -55,4 +55,3 @@
   </section>
 </article>
 <app-popup *ngIf="winners.length > 0 || isDraw" [winners]="winners" [isDraw]="isDraw"></app-popup>
-<app-error-message *ngIf="(players$ | async)!.length < 2 || !selectedMode"></app-error-message>
