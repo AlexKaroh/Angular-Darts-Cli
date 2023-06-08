@@ -1,5 +1,10 @@
 <div class="popup">
-  <span *ngIf="winner !== 'DRAW!'">Congrats! Winner : {{winner}}</span>
-  <span *ngIf="winner === 'DRAW!'">{{winner}}</span>
+  <div *ngIf="winners.length > 0" class="winner-container"> 
+    <span>CONGRATS!</span>
+    <span>Players who win: <span *ngFor="let winner of winners" class="winner-font">{{winner}}</span>!</span> 
+  </div>
+  <span *ngIf="isDraw">
+    DRAW !
+  </span>
   <a class="back-link" routerLink="/options">Start Again</a>
 </div>

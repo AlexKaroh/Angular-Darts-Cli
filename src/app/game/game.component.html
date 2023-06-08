@@ -54,5 +54,5 @@
     </div>
   </section>
 </article>
-<app-popup *ngIf="winner" [winner]="winner"></app-popup>
+<app-popup *ngIf="winners.length > 0 || isDraw" [winners]="winners" [isDraw]="isDraw"></app-popup>
 <app-error-message *ngIf="(players$ | async)!.length < 2 || !selectedMode"></app-error-message>

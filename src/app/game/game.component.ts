@@ -45,9 +45,14 @@ export class GameComponent implements OnInit {
     return this.gameService.gameHistory$;
   }
 
-  get winner() {
-    return this.gameService.winner;
+  get winners() {
+    return this.gameService.winners;
   }
+
+  get isDraw() {
+    return this.gameService.isDraw;
+  }
+
 
   get selectedMode() {
     return this.gameService.selectedMode;
@@ -71,6 +76,7 @@ export class GameComponent implements OnInit {
             points: this.fb.control('', [
               Validators.required,
               Validators.pattern('^[0-9]*$'),
+              Validators.max(50),
             ]),
             multiply: this.fb.control('', Validators.required),
           });

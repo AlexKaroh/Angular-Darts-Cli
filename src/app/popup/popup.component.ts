@@ -7,5 +7,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopupComponent {
-  @Input() winner?: string;
+  @Input() winners!: string[];
+  @Input() isDraw!: boolean;
 }
