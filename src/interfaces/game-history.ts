@@ -1,3 +1,3 @@
-export interface GameHistory { 
-  [key: string]: number,
+export interface GameHistory {
+  [key: string]: number;
 }

@@ -22,7 +22,9 @@ export class GameOptionsComponent {
   setErrorMessage() {
     return this.players$.pipe(
       map((players) => {
-        return players.length < 2 ? '* Add at least two players to start game' : '';
+        return players.length < 2
+          ? '* Add at least two players to start game'
+          : '';
       })
     );
   }

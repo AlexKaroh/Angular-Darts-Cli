@@ -1,4 +1,4 @@
 export interface PlayerThrow {
-  multiply: number,
-  points: number,
+  multiply: number;
+  points: number;
 }

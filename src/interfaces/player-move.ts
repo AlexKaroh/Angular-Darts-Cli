@@ -1,6 +1,6 @@
-import { PlayerThrow } from "./player-throw";
+import { PlayerThrow } from './player-throw';
 
 export interface PlayerMove {
-  name: string,
-  throw: PlayerThrow[],
+  name: string;
+  throw: PlayerThrow[];
 }
