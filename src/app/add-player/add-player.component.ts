@@ -52,7 +52,6 @@ export class AddPlayerComponent {
     const newPlayer: Player = { name, email };
 
     this.playersService.addPlayer(newPlayer);
-    this.playerDataForm.reset();
     this.router.navigate(['/options']);
   }
 

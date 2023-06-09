@@ -46,22 +46,19 @@ export class GameService {
     return this.playersMoves.getValue();
   }
 
-  set gameHistory(vlaue) {
-    this.playersMoves.next(vlaue);
-  }
-
   public makeMove(moves: PlayerMove[]) {
     const totalScorePlayers: GameHistory = {};
     const isGameMode501 = this.selectedMode === '501';
-    let lastMultipy: number | null = null;
 
     moves.forEach((playerMove) => {
       const playerName = playerMove.name;
       let throwScore = START_THROW_VALUE;
+      let lastMultipy: number | null = null;
 
-      this.gameHistory.length > GAME_HISTORY_STARTED_VALUE
-        ? (totalScorePlayers[playerName] = this.gameHistory.at(-1)![playerName])
-        : (totalScorePlayers[playerName] = this.startedScore as number);
+      totalScorePlayers[playerName] =
+        this.gameHistory.length > GAME_HISTORY_STARTED_VALUE
+          ? this.gameHistory.at(-1)![playerName]
+          : (this.startedScore as number);
 
       playerMove.throw.forEach((throwValue) => {
         throwScore = throwValue.points * throwValue.multiply;

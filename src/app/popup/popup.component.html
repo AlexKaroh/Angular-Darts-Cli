@@ -1,7 +1,7 @@
 <div class="popup">
-  <div *ngIf="winners.length > 0" class="winner-container"> 
+  <div *ngIf="winners.length" class="winner-container"> 
     <span>CONGRATS!</span>
-    <span>Players who win: <span *ngFor="let winner of winners" class="winner-font">{{winner}}</span>!</span> 
+    <span>Winners: <span *ngFor="let winner of winners" class="winner-font">{{winner}}</span>!</span> 
   </div>
   <span *ngIf="isDraw">
     DRAW !
