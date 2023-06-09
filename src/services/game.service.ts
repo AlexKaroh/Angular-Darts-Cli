@@ -74,9 +74,12 @@ export class GameService {
       }
     });
     this.holdScoreIfOverThrow(totalScorePlayers);
-    isGameMode501
-      ? this.checkWinnerWhenLimitOfThrows(totalScorePlayers)
-      : this.zeroScoreIfDuplicateThrow(totalScorePlayers);
+    if (isGameMode501) {
+      this.checkWinnerWhenLimitOfThrows(totalScorePlayers);
+    } else {
+      this.zeroScoreIfDuplicateThrow(totalScorePlayers);
+    }
+
     this.gameHistory.push(totalScorePlayers);
     this.checkWinner(totalScorePlayers);
   }
