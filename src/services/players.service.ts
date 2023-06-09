@@ -14,8 +14,6 @@ export class PlayerService {
 
   private playersData = new BehaviorSubject<Player[]>(this._players);
 
-  constructor() {}
-
   public get players$() {
     return this.playersData.asObservable();
   }
@@ -35,7 +33,6 @@ export class PlayerService {
   public hasPlayer(name: string): boolean {
     return this.playersData.value.some((player) => player.name === name);
   }
-
 
   public updatePlayers(players: Player[]) {
     this.playersData.next(players);
