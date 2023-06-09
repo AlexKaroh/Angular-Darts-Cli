@@ -38,11 +38,6 @@ export class GameService {
     return this.route.snapshot.data['players'];
   }
 
-  private setStartedValues(mode: string) {
-    this.startedScore =
-      mode === '501' ? GAME_501_START_VALUE : GAME_301_START_VALUE;
-  }
-
   get gameHistory$() {
     return this.playersMoves.asObservable();
   }
@@ -165,5 +160,10 @@ export class GameService {
         this.isDraw = true;
       }
     }
+  }
+
+  private setStartedValues(mode: string) {
+    this.startedScore =
+      mode === '501' ? GAME_501_START_VALUE : GAME_301_START_VALUE;
   }
 }
