@@ -38,6 +38,11 @@ export class GameService {
     return this.route.snapshot.data['players'];
   }
 
+  private setStartedValues(mode: string) {
+    this.startedScore =
+      mode === '501' ? GAME_501_START_VALUE : GAME_301_START_VALUE;
+  }
+
   get gameHistory$() {
     return this.playersMoves.asObservable();
   }
@@ -52,6 +57,7 @@ export class GameService {
 
   public makeMove(moves: PlayerMove[]) {
     const totalScorePlayers: GameHistory = {};
+    const isGameMode501 = this.selectedMode === '501';
     let lastMultipy: number | null = null;
 
     moves.forEach((playerMove) => {
@@ -64,19 +70,19 @@ export class GameService {
 
       playerMove.throw.forEach((throwValue) => {
         throwScore = throwValue.points * throwValue.multiply;
-        if (this.selectedMode === '501' && throwScore !== START_THROW_VALUE) {
+        if (isGameMode501 && throwScore !== START_THROW_VALUE) {
           totalScorePlayers[playerName] -= throwScore;
           lastMultipy = throwValue.multiply;
-        } else if (this.selectedMode === '301') {
+        } else {
           totalScorePlayers[playerName] += throwScore;
         }
       });
-      if (this.selectedMode === '501') {
+      if (isGameMode501) {
         this.holdScoreIfDirtWin(totalScorePlayers, playerName, lastMultipy);
       }
     });
     this.holdScoreIfOverThrow(totalScorePlayers);
-    this.selectedMode === '501'
+    isGameMode501
       ? this.checkWinnerWhenLimitOfThrows(totalScorePlayers)
       : this.zeroScoreIfDuplicateThrow(totalScorePlayers);
     this.gameHistory.push(totalScorePlayers);
@@ -158,14 +164,6 @@ export class GameService {
       ) {
         this.isDraw = true;
       }
-    }
-  }
-
-  private setStartedValues(mode: string) {
-    if (mode === '501') {
-      this.startedScore = GAME_501_START_VALUE;
-    } else {
-      this.startedScore = GAME_301_START_VALUE;
     }
   }
 }

@@ -9,7 +9,6 @@ import { LogoComponent } from './logo/logo.component';
 import { GameOptionsComponent } from './game-options/game-options.component';
 import { StepCounterPipe } from 'src/pipes/step-counter.pipe';
 import { PopupComponent } from './popup/popup.component';
-import { ErrorMessageComponent } from './error-message/error-message.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,6 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
     AddPlayerComponent,
     GameComponent,
     LogoComponent,
-    ErrorMessageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule],
   providers: [],

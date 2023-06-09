@@ -1,17 +1,17 @@
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { map } from 'rxjs/internal/operators/map';
 import { PlayerService } from 'src/services/players.service';
 
 export const gameGuard = () => {
   const playerService = inject(PlayerService);
-  const router = inject(Router);
   const players$ = playerService.players$;
 
-  players$.subscribe((players) => {
-    if (players.length < 2) {
-      router.navigate(['/error']);
-      return false;
-    }
-    return true;
-  });
+  return players$.pipe(
+    map((players) => {
+      if (players.length < 2) {
+        return false;
+      }
+      return true;
+    })
+  );
 };

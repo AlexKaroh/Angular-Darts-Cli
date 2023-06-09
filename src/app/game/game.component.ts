@@ -8,6 +8,8 @@ import { ThrowNumberType } from 'src/types/throw-number.type';
 import { PlayerMove } from 'src/interfaces/player-move';
 import { PlayerThrow } from 'src/interfaces/player-throw';
 
+const MAX_POSSIBLE_SCORE = 50;
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -68,7 +70,7 @@ export class GameComponent implements OnInit {
           points: this.fb.control('', [
             Validators.required,
             Validators.pattern('^[0-9]*$'),
-            Validators.max(50),
+            Validators.max(MAX_POSSIBLE_SCORE),
           ]),
           multiply: this.fb.control('', Validators.required),
         });

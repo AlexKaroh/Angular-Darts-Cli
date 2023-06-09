@@ -1,5 +1,5 @@
 <app-logo class="logo"></app-logo>
-<article class="options-container">
+<article class="options-container" *ngIf="players$ | async as players">
   <span class="message light-font">Select players</span>
   <section class="players-options">
     <div class="search-container">
@@ -8,7 +8,7 @@
     </div>
     <a class="add-link" routerLink="/addplayer">New Player</a>
   </section>
-  <ul class="players-list" *ngIf="players$ | async as players">
+  <ul class="players-list">
     <li class="player-info"  *ngFor="let player of players; let i = index">
       <span class="palyer-name">{{ player.name }}</span>
       <span class="palyer-email">{{ player.email }}</span>
@@ -23,5 +23,6 @@
       <input type="radio" name="mode" style="display: none" [attr.id]="mode" [attr.value]="mode" (click)="selectedMode = mode">
     </label>
   </section>
-  <button class="start-link" [routerLink]="['/game', selectedMode]" [ngClass]="selectedMode ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true"> Start </button>
+  <button class="start-link" [routerLink]="['/game', selectedMode]" [ngClass]="selectedMode && players.length > 1 ? 'active' : 'disabled'" [attr.disabled]="selectedMode ? null : true && players.length > 1"> Start </button>
+  <span class="error-message">{{errorMessage}}</span>
 </article>
